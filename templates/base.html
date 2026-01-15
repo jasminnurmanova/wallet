@@ -77,7 +77,7 @@
                 </h4>
                 <ul class="mt-2.5">
                   <li class="item py-[11px] text-bgray-900 dark:text-white">
-                    <a href="{% url 'home' %}">
+                    <a href="{% url 'main:home' %}">
                       <div class="flex items-center justify-between">
                         <div class="flex items-center space-x-2.5">
                           <span class="item-ico">
@@ -109,7 +109,7 @@
                     </a>
                   </li>
                   <li class="item py-[11px] text-bgray-900 dark:text-white">
-                    <a href="{% url 'transaction' %}">
+                    <a href="{% url 'main:transaction' %}">
                       <div class="flex items-center justify-between">
                         <div class="flex items-center space-x-2.5">
                           <span class="item-ico">
@@ -255,7 +255,7 @@
                           <!--edit-->
                           <div>
                             <img
-                              src="./assets/images/avatar/profile-xs.png"
+                              src="{% static './assets/images/avatar/profile-xs.png' %}"
                               alt="profile"
                             />
                           </div>
@@ -272,7 +272,11 @@
                     </a>
                   </li>
                   <li class="item py-[11px] text-bgray-900 dark:text-white">
-                    <a href="users.html">
+{% if request.user.is_authenticated %}
+  <a href="{% url 'users:profile' request.user.username %}">
+{% else %}
+  <a href="{% url 'users:signup' %}">
+{% endif %}
                       <div class="flex items-center justify-between">
                         <div class="flex items-center space-x-2.5">
                           <span class="item-ico">
@@ -596,7 +600,7 @@
                         </ul>
                       </li>
                       <li class="item px-[43px] py-[11px]">
-                        <a href="{% url 'transaction' %}">
+                        <a href="{% url 'main:transaction' %}">
                           <span class="item-ico">
                             <svg
                               width="18"
@@ -1991,11 +1995,17 @@
                       <div>
                         <ul>
                           <li class="w-full">
-                            <a href="settings.html">
+
+
+{% if request.user.is_authenticated %}
+  <a href="{% url 'users:profile' request.user.username %}">
+{% else %}
+  <a href="{% url 'login' %}">
+{% endif %}
                               <div
                                 class="flex items-center space-x-[18px] rounded-lg p-[14px] text-bgray-600 hover:bg-bgray-100 hover:text-bgray-900 hover:dark:bg-darkblack-500"
                               >
-                                <div class="w-[20px]">
+                                <div cass="w-[20px]">
                                   <span>
                                     <svg
                                       class="stroke-bgray-900 dark:stroke-bgray-50"
@@ -2067,7 +2077,43 @@
                             </a>
                           </li>
                           <li class="w-full">
-                            <a href="#">
+  <form method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+
+    <button
+      type="submit"
+      class="w-full text-left"
+    >
+      <div
+        class="flex items-center space-x-[18px] rounded-lg p-[14px] text-success-300 hover:bg-success-50 transition"
+      >
+        <div class="w-[20px]">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M15 10L13.7071 11.2929C13.3166 11.6834 13.3166 12.3166 13.7071 12.7071L15 14M14 12L22 12M6 20C3.79086 20 2 18.2091 2 16V8C2 5.79086 3.79086 4 6 4M6 20C8.20914 20 10 18.2091 10 16V8C10 5.79086 8.20914 4 6 4M6 20H14C16.2091 20 18 18.2091 18 16M6 4H14C16.2091 4 18 5.79086 18 8"
+              stroke="#22C55E"
+              stroke-width="1.5"
+              stroke-linecap="round"
+            />
+          </svg>
+        </div>
+
+        <div class="flex-1">
+          <span class="text-sm font-semibold">Log Out</span>
+        </div>
+      </div>
+    </button>
+
+  </form>
+</li>
+                           <li class="w-full">
+                            <a href="{% url 'login' %}">
                               <div
                                 class="flex items-center space-x-[18px] rounded-lg p-[14px] text-success-300"
                               >
@@ -2091,12 +2137,13 @@
                                 </div>
                                 <div class="flex-1">
                                   <span class="text-sm font-semibold"
-                                    >Log Out</span
+                                    >Log in</span
                                   >
                                 </div>
                               </div>
                             </a>
                           </li>
+
                         </ul>
                       </div>
                       <div class="my-[14px] h-[1px] w-full bg-bgray-300"></div>
@@ -2211,7 +2258,11 @@
                       <div>
                         <ul>
                           <li class="w-full">
-                            <a href="settings.html">
+{% if request.user.is_authenticated %}
+  <a href="{% url 'users:profile' request.user.username %}">
+{% else %}
+  <a href="{% url 'login' %}">
+{% endif %}
                               <div
                                 class="flex items-center space-x-[18px] rounded-lg p-[14px] text-bgray-600 hover:bg-bgray-100 hover:text-bgray-900"
                               >
@@ -2287,8 +2338,39 @@
                               </div>
                             </a>
                           </li>
+                           <li class="w-full">
+                            <a href="{% url 'login' %}">
+                              <div
+                                class="flex items-center space-x-[18px] rounded-lg p-[14px] text-success-300"
+                              >
+                                <div class="w-[20px]">
+                                  <span>
+                                    <svg
+                                      width="24"
+                                      height="24"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M15 10L13.7071 11.2929C13.3166 11.6834 13.3166 12.3166 13.7071 12.7071L15 14M14 12L22 12M6 20C3.79086 20 2 18.2091 2 16V8C2 5.79086 3.79086 4 6 4M6 20C8.20914 20 10 18.2091 10 16V8C10 5.79086 8.20914 4 6 4M6 20H14C16.2091 20 18 18.2091 18 16M6 4H14C16.2091 4 18 5.79086 18 8"
+                                        stroke="#22C55E"
+                                        stroke-width="1.5"
+                                        stroke-linecap="round"
+                                      />
+                                    </svg>
+                                  </span>
+                                </div>
+                                <div class="flex-1">
+                                  <span class="text-sm font-semibold"
+                                    >Log in</span
+                                  >
+                                </div>
+                              </div>
+                            </a>
+                          </li>
                           <li class="w-full">
-                            <a href="#">
+                            <a href="{% url 'users:logout' %}">
                               <div
                                 class="flex items-center space-x-[18px] rounded-lg p-[14px] text-success-300"
                               >
@@ -2324,18 +2406,13 @@
                       <div>
                         <ul>
                           <li class="w-full">
-                            <a href="settings.html">
-                              <div
-                                class="rounded-lg p-[14px] text-bgray-600 hover:bg-bgray-100 hover:text-bgray-900"
-                              >
-                                <span class="text-sm font-semibold"
-                                  >Settings</span
-                                >
-                              </div>
-                            </a>
                           </li>
                           <li class="w-full">
-                            <a href="users.html">
+{% if request.user.is_authenticated %}
+  <a href="{% url 'users:profile' request.user.username %}">
+{% else %}
+  <a href="{% url 'login' %}">
+{% endif %}
                               <div
                                 class="rounded-lg p-[14px] text-bgray-600 hover:bg-bgray-100 hover:text-bgray-900"
                               >

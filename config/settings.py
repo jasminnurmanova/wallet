@@ -117,8 +117,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",   # your local static folder
+]
+
+STATIC_ROOT = BASE_DIR / "staticfiles"  # for production
+
 
 AUTH_USER_MODEL = 'user.CustomUser'
 
@@ -128,3 +134,9 @@ MEDIA_URL = '/media/'
 
 # Path where media is stored'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+
+
+LOGIN_URL = "account_login"
+LOGIN_REDIRECT_URL='main:home'
+LOGOUT_REDIRECT_URL='main:home'
