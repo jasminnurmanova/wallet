@@ -120,5 +120,11 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
-# AUTH_USER_MODEL = 'user.CustomUser'
+AUTH_USER_MODEL = 'user.CustomUser'
 
+
+# Base url to serve media files
+MEDIA_URL = '/media/'
+
+# Path where media is stored'
+MEDIA_ROOT = BASE_DIR / 'media'

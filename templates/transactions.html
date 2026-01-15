@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+  .form-wrapper {
+    max-width: 500px;
+    margin: 150px auto;
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  }
+
+  .form-wrapper h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+
+  .form-group select,
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    outline: none;
+  }
+
+  .form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  .form-group select:focus,
+  .form-group input:focus,
+  .form-group textarea:focus {
+    border-color: #22c55e;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    color: white;
+  }
+
+  .income-btn {
+    background: #22c55e;
+  }
+
+  .outcome-btn {
+    background: #ef4444;
+  }
+
+  .inactive {
+    opacity: 0.6;
+  }
+
+  .submit-btn:hover {
+    filter: brightness(0.95);
+  }
+</style>
+
+<div class="form-wrapper">
+  <h2>Kirim / Chiqim qo‘shish</h2>
+
+  <!-- INCOME / OUTCOME BUTTONS -->
+  <div style="display:flex; gap:12px; margin-bottom:20px;">
+    <button type="button" id="incomeBtn" class="submit-btn income-btn">
+      ➕ INCOME
+    </button>
+    <button type="button" id="outcomeBtn" class="submit-btn outcome-btn inactive">
+      ➖ OUTCOME
+    </button>
+  </div>
+
+  <form method="POST">
+    {% csrf_token %}
+
+    <!-- Wallet -->
+    <div class="form-group">
+      <label>Wallet</label>
+      <select name="wallet" required>
+        <option value="">Wallet tanlang</option>
+        {% for wallet in wallets %}
+          <option value="{{ wallet.id }}">{{ wallet.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- TYPE (hidden, backend uchun) -->
+    <div class="form-group" style="display:none;">
+      <select name="type" id="typeSelect" required>
+        <option value="income">income</option>
+        <option value="outcome">outcome</option>
+      </select>
+    </div>
+
+    <!-- Category -->
+    <div class="form-group">
+      <label>Category</label>
+      <select name="category" id="categorySelect" required>
+        {% for category in categories %}
+          <option value="{{ category.id }}" data-type="{{ category.type }}">
+            {{ category.name }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Come Type -->
+    <div class="form-group">
+      <label>To‘lov turi</label>
+      <select name="come_type" required>
+        <option value="">Tanlang</option>
+        <option value="cash">CASH</option>
+        <option value="uzcard">UzCard</option>
+        <option value="humo">HUMO</option>
+        <option value="visa">VISA</option>
+      </select>
+    </div>
+
+    <!-- Amount -->
+    <div class="form-group">
+      <label>Summa</label>
+      <input type="number" step="0.01" name="amount" placeholder="Masalan: 100000" required>
+    </div>
+
+    <!-- Description -->
+    <div class="form-group">
+      <label>Izoh</label>
+      <textarea name="desc" placeholder="Izoh (ixtiyoriy)"></textarea>
+    </div>
+
+    <button type="submit" class="submit-btn income-btn">
+      Saqlash
+    </button>
+  </form>
+</div>
+
+<script>
+  const typeSelect = document.getElementById("typeSelect");
+  const categorySelect = document.getElementById("categorySelect");
+  const categoryOptions = categorySelect.querySelectorAll("option[data-type]");
+
+  const incomeBtn = document.getElementById("incomeBtn");
+  const outcomeBtn = document.getElementById("outcomeBtn");
+
+  function setType(type) {
+    typeSelect.value = type;
+    categorySelect.value = "";
+
+    categoryOptions.forEach(option => {
+      option.style.display =
+        option.dataset.type === type ? "block" : "none";
+    });
+  }
+
+  incomeBtn.addEventListener("click", () => {
+    setType("income");
+    incomeBtn.classList.remove("inactive");
+    outcomeBtn.classList.add("inactive");
+  });
+
+  outcomeBtn.addEventListener("click", () => {
+    setType("outcome");
+    outcomeBtn.classList.remove("inactive");
+    incomeBtn.classList.add("inactive");
+  });
+
+  // 🔥 DEFAULT: INCOME
+  document.addEventListener("DOMContentLoaded", () => {
+    setType("income");
+  });
+</script>
+
+{% endblock %}

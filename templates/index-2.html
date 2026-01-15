@@ -26,7 +26,7 @@
                             </div>
                             <span
                               class="text-lg font-semibold text-bgray-900 dark:text-white"
-                              >Total earnings</span
+                              >Total</span
                             >
                           </div>
                           <div>
@@ -41,7 +41,7 @@
                             <p
                               class="text-3xl font-bold leading-[48px] text-bgray-900 dark:text-white"
                             >
-                              $7,245.00
+                              ${{total}}
                             </p>
                             <div class="flex items-center space-x-1">
                               <span>
@@ -62,11 +62,6 @@
                                     fill="#22C55E"
                                   />
                                 </svg>
-                              </span>
-                              <span
-                                class="text-sm font-medium text-success-300"
-                              >
-                                + 3.5%
                               </span>
                             </div>
                           </div>
@@ -90,7 +85,7 @@
                             </div>
                             <span
                               class="text-lg font-semibold text-bgray-900 dark:text-white"
-                              >Total earnings</span
+                              >Total expenses</span
                             >
                           </div>
                           <div>
@@ -105,7 +100,7 @@
                             <p
                               class="text-3xl font-bold leading-[48px] text-bgray-900 dark:text-white"
                             >
-                              $7,245.00
+                              $ {{outcome}}
                             </p>
                             <div class="flex items-center space-x-1">
                               <span>
@@ -154,7 +149,7 @@
                             </div>
                             <span
                               class="text-lg font-semibold text-bgray-900 dark:text-white"
-                              >Total earnings</span
+                              >Total income</span
                             >
                           </div>
                           <div>
@@ -169,7 +164,7 @@
                             <p
                               class="text-3xl font-bold leading-[48px] text-bgray-900 dark:text-white"
                             >
-                              $7,245.00
+                              $ {{income}}
                             </p>
                             <div class="flex items-center space-x-1">
                               <span>
@@ -206,66 +201,7 @@
                       <div
                         class="rounded-lg bg-white p-5 dark:bg-darkblack-600"
                       >
-                        <div class="mb-5 flex items-center justify-between">
-                          <div class="flex items-center space-x-[7px]">
-                            <div class="icon">
-                              <span>
-                                <img
-                                  src="{% static './assets/images/icons/total-earn.svg' %}"
-                                  alt="icon"
-                                />
-                              </span>
-                            </div>
-                            <span
-                              class="text-lg font-semibold text-bgray-900 dark:text-white"
-                              >Total earnings</span
-                            >
-                          </div>
-                          <div>
-                            <img
-                              src="{% static './assets/images/avatar/members-2.png' %}"
-                              alt="members"
-                            />
-                          </div>
-                        </div>
-                        <div class="flex items-end justify-between">
-                          <div class="flex-1">
-                            <p
-                              class="text-3xl font-bold leading-[48px] text-bgray-900 dark:text-white"
-                            >
-                              $7,245.00
-                            </p>
-                            <div class="flex items-center space-x-1">
-                              <span>
-                                <svg
-                                  width="16"
-                                  height="14"
-                                  viewBox="0 0 16 14"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <path
-                                    d="M13.4318 0.522827L12.4446 0.522827L8.55575 0.522827L7.56859 0.522827C6.28227 0.522827 5.48082 1.91818 6.12896 3.02928L9.06056 8.05489C9.7037 9.1574 11.2967 9.1574 11.9398 8.05489L14.8714 3.02928C15.5196 1.91818 14.7181 0.522828 13.4318 0.522827Z"
-                                    fill="#22C55E"
-                                  />
-                                  <path
-                                    opacity="0.4"
-                                    d="M2.16878 13.0485L3.15594 13.0485L7.04483 13.0485L8.03199 13.0485C9.31831 13.0485 10.1198 11.6531 9.47163 10.542L6.54002 5.5164C5.89689 4.41389 4.30389 4.41389 3.66076 5.5164L0.729153 10.542C0.0810147 11.6531 0.882466 13.0485 2.16878 13.0485Z"
-                                    fill="#22C55E"
-                                  />
-                                </svg>
-                              </span>
-                              <span
-                                class="text-sm font-medium text-success-300"
-                              >
-                                + 3.5%
-                              </span>
-                            </div>
-                          </div>
-                          <div class="w-[136px]">
-                            <canvas id="monthSpendingBar" height="68"></canvas>
-                          </div>
-                        </div>
+
                       </div>
                     </div>
                   </div>
@@ -475,235 +411,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="mb-[24px] flex w-full space-x-[24px]">
-                  <div
-                    class="flex w-full flex-col justify-between rounded-lg bg-white px-[24px] py-3 dark:bg-darkblack-600 xl:w-66"
-                  >
-                    <div
-                      class="mb-2 flex items-center justify-between border-b border-bgray-300 pb-2 dark:border-darkblack-400"
-                    >
-                      <h3
-                        class="text-xl font-bold text-bgray-900 dark:text-white sm:text-2xl"
-                      >
-                        Summary
-                      </h3>
-                      <div class="hidden items-center space-x-[28px] sm:flex">
-                        <div class="flex items-center space-x-2">
-                          <div class="h-3 w-3 rounded-full bg-orange"></div>
-                          <span
-                            class="text-sm font-medium text-bgray-700 dark:text-white"
-                            >Lost
-                          </span>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                          <div
-                            class="h-3 w-3 rounded-full bg-success-300"
-                          ></div>
-                          <span
-                            class="text-sm font-medium text-bgray-700 dark:text-white"
-                            >Signed
-                          </span>
-                        </div>
-                      </div>
-                      <div class="date-filter relative">
-                        <button
-                          onclick="dateFilterAction('#date-filter-body')"
-                          type="button"
-                          class="flex items-center space-x-1 overflow-hidden rounded-lg bg-bgray-100 px-3 py-2 dark:bg-darkblack-500"
-                        >
-                          <span
-                            class="text-sm font-medium text-bgray-900 dark:text-white"
-                            >Jan 10 - Jan 16</span
-                          >
-                          <span>
-                            <svg
-                              class="stroke-bgray-900 dark:stroke-gray-50"
-                              width="16"
-                              height="17"
-                              viewBox="0 0 16 17"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M4 6.5L8 10.5L12 6.5"
-                                stroke-width="1.5"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                              />
-                            </svg>
-                          </span>
-                        </button>
-                        <div
-                          id="date-filter-body"
-                          class="absolute right-0 top-[44px] z-10 hidden overflow-hidden rounded-lg bg-white shadow-lg dark:bg-darkblack-500"
-                        >
-                          <ul>
-                            <li
-                              onclick="dateFilterAction('#date-filter-body')"
-                              class="text-bgray-90 cursor-pointer px-5 py-2 text-sm font-semibold hover:bg-bgray-100 dark:text-white hover:dark:bg-darkblack-600"
-                            >
-                              Jan 10 - Jan 16
-                            </li>
-                            <li
-                              onclick="dateFilterAction('#date-filter-body')"
-                              class="cursor-pointer px-5 py-2 text-sm font-semibold text-bgray-900 hover:bg-bgray-100 dark:text-white hover:dark:bg-darkblack-600"
-                            >
-                              Jan 10 - Jan 16
-                            </li>
-                            <li
-                              onclick="dateFilterAction('#date-filter-body')"
-                              class="cursor-pointer px-5 py-2 text-sm font-semibold text-bgray-900 hover:bg-bgray-100 dark:text-white hover:dark:bg-darkblack-600"
-                            >
-                              Jan 10 - Jan 16
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="w-full">
-                      <canvas id="revenueFlowBar" height="255"></canvas>
-                    </div>
-                  </div>
-                  <div class="hidden flex-1 xl:block">
-                    <div
-                      class="h-full w-full rounded-lg bg-white p-5 dark:bg-darkblack-600"
-                    >
-                      <div class="flex items-center justify-between">
-                        <h3
-                          class="text-xl font-bold text-bgray-900 dark:text-white"
-                        >
-                          Most Location
-                        </h3>
-                        <div class="flex items-center space-x-1.5">
-                          <span
-                            class="text-2xl font-bold text-bgray-900 dark:text-white"
-                            >76,345</span
-                          >
-                          <div
-                            class="flex h-[22px] w-[60px] items-center justify-center rounded-full bg-success-400"
-                          >
-                            <div class="flex items-center space-x-1">
-                              <span>
-                                <svg
-                                  width="10"
-                                  height="7"
-                                  viewBox="0 0 10 7"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <path
-                                    d="M0.5 5.89575L3.5 2.89575L5.5 4.89575L9.5 0.895752"
-                                    stroke="white"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                  />
-                                  <path
-                                    d="M6 0.895752H9.5V4.39575"
-                                    stroke="white"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                  />
-                                </svg>
-                              </span>
-                              <span class="text-xs font-medium text-white"
-                                >12,00%</span
-                              >
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <p class="mb-8 text-sm text-bgray-600 dark:text-bgray-50">
-                        Compared to last month
-                      </p>
-                      <div class="flex flex-col space-y-8">
-                        <div class="flex items-center space-x-5">
-                          <div class="w-[30px]">
-                            <img
-                              src="./assets/images/flag/fe.png"
-                              class="w-full"
-                              alt="flag"
-                            />
-                          </div>
-                          <div class="flex-1">
-                            <div class="mb-2 flex justify-between">
-                              <span
-                                class="text-sm font-medium text-bgray-900 dark:text-white"
-                                >Brazil</span
-                              >
-                              <span class="text-sm font-medium dark:text-white"
-                                >65%</span
-                              >
-                            </div>
-                            <div
-                              class="relative h-[14px] w-full overflow-hidden rounded bg-bgray-100"
-                            >
-                              <div
-                                style="width: 65%"
-                                class="absolute left-0 top-0 h-full rounded bg-success-300"
-                              ></div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="flex items-center space-x-5">
-                          <div class="w-[30px]">
-                            <img
-                              src="./assets/images/flag/bra.png"
-                              class="w-full"
-                              alt="flag"
-                            />
-                          </div>
-                          <div class="flex-1">
-                            <div class="mb-2 flex justify-between">
-                              <span
-                                class="text-sm font-medium text-bgray-900 dark:text-white"
-                                >Brazil</span
-                              >
-                              <span class="text-sm font-medium dark:text-white"
-                                >85%</span
-                              >
-                            </div>
-                            <div
-                              class="relative h-[14px] w-full overflow-hidden rounded bg-bgray-100"
-                            >
-                              <div
-                                style="width: 85%"
-                                class="absolute left-0 top-0 h-full rounded bg-warning-100"
-                              ></div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="flex items-center space-x-5">
-                          <div class="w-[30px]">
-                            <img
-                              src="./assets/images/flag/italy.png"
-                              class="w-full"
-                              alt="flag"
-                            />
-                          </div>
-                          <div class="flex-1">
-                            <div class="mb-2 flex justify-between">
-                              <span
-                                class="text-sm font-medium text-bgray-900 dark:text-white"
-                                >Brazil</span
-                              >
-                              <span class="text-sm font-medium dark:text-white"
-                                >95%</span
-                              >
-                            </div>
-                            <div
-                              class="relative h-[14px] w-full overflow-hidden rounded bg-bgray-100"
-                            >
-                              <div
-                                style="width: 95%"
-                                class="absolute left-0 top-0 h-full rounded bg-orange"
-                              ></div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+
                 <!-- List Table -->
                 <div
                   class="w-full rounded-lg bg-white px-[24px] py-[20px] dark:bg-darkblack-600"
@@ -1782,24 +1490,14 @@
                     </div>
                     <div class="flex justify-center">
                       <div class="card-slider relative w-[280px] md:w-[340px]">
+
                         <div class="w-full">
                           <img
-                            src="./assets/images/payments/card-1.svg"
+                            src="{% static './assets/images/payments/card-1.svg' %}"
                             alt="card"
                           />
                         </div>
-                        <div class="w-full">
-                          <img
-                            src="./assets/images/payments/card-2.svg"
-                            alt="card"
-                          />
-                        </div>
-                        <div class="w-full">
-                          <img
-                            src="./assets/images/payments/card-3.svg"
-                            alt="card"
-                          />
-                        </div>
+
                       </div>
                     </div>
                   </div>
