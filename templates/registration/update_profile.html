@@ -1,53 +1,54 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-<div class="relative h-[calc(100vh-120px)]">
-  <!-- SCROLLABLE CONTENT AREA -->
-  <main class="h-full overflow-y-auto px-6 pb-24">
-    <div class="max-w-xl mx-auto mt-10 rounded-lg bg-white p-6 shadow">
-      <h2 class="mb-6 text-xl font-semibold">
-        Update Profile
-      </h2>
-      <!-- CURRENT AVATAR -->
-      {% if request.user.userprofile.avatar %}
-        <div class="mb-6 flex justify-center">
-          <img
-            src="{{ request.user.userprofile.avatar.url }}"
-            class="h-24 w-24 rounded-full object-cover"
-            alt="Current avatar"
-          />
-        </div>
-      {% endif %}
-      <form method="post" enctype="multipart/form-data" id="profileForm">
-        {% csrf_token %}
-        {% for field in form %}
-          <div class="mb-4">
-            <label class="block mb-1 text-sm font-medium">
-              {{ field.label }}
-            </label>
-            {{ field }}
-            {% if field.errors %}
-              <p class="text-sm text-red-500">
-                {{ field.errors|striptags }}
-              </p>
-            {% endif %}
-          </div>
-        {% endfor %}
-      </form>
-    </div>
-  </main>
 
-  <!-- FIXED SUBMIT BAR -->
-  <div class="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-6 py-4 shadow-lg">
-    <div class="max-w-xl mx-auto">
+<div class="min-h-screen px-6 py-10">
+  <div class="mx-auto max-w-xl rounded-lg bg-white p-6 shadow">
+    <h2 class="mb-6 text-xl font-semibold">
+      Update Profile
+    </h2>
+
+    <!-- CURRENT AVATAR -->
+    {% if request.user.userprofile.avatar %}
+      <div class="mb-4 flex justify-center">
+        <img
+          src="{{ request.user.userprofile.avatar.url }}"
+          class="h-24 w-24 rounded-full object-cover ring-2 ring-gray-200"
+          alt="Current avatar"
+        />
+      </div>
+    {% endif %}
+
+    <!-- UPDATE BUTTON (UNDER AVATAR) -->
+    <div class="mb-6 flex justify-center">
       <button
         type="submit"
         form="profileForm"
-        class="w-full rounded-lg bg-blue-600 px-6 py-3 text-white hover:bg-blue-700"
+        class="rounded-lg bg-blue-600 px-6 py-2.5 text-white font-medium transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
       >
-        Save changes
+        Update
       </button>
     </div>
+
+    <form method="post" enctype="multipart/form-data" id="profileForm">
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="mb-4">
+          <label class="mb-1 block text-sm font-medium">
+            {{ field.label }}
+          </label>
+
+          {{ field }}
+
+          {% if field.errors %}
+            <p class="mt-1 text-sm text-red-500">
+              {{ field.errors|striptags }}
+            </p>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </form>
   </div>
 </div>
+
 {% endblock %}

@@ -78,7 +78,7 @@
 </style>
 
 <div class="form-wrapper">
-  <h2>Kirim / Chiqim qo'shish</h2>
+  <h2>Add Income / Expense</h2>
 
   <!-- INCOME / OUTCOME BUTTONS -->
   <div style="display:flex; gap:12px; margin-bottom:20px;">
@@ -86,7 +86,7 @@
       ➕ INCOME
     </button>
     <button type="button" id="outcomeBtn" class="submit-btn outcome-btn inactive">
-      ➖ OUTCOME
+      ➖ EXPENSE
     </button>
   </div>
 
@@ -97,21 +97,21 @@
     <div class="form-group">
       <label>Wallet</label>
       <select name="wallet" required>
-        <option value="">Wallet tanlang</option>
+        <option value="">Select wallet</option>
         {% for wallet in wallets %}
           <option value="{{ wallet.id }}">{{ wallet.type }}</option>
         {% endfor %}
       </select>
     </div>
 
-    <!-- TYPE (hidden, backend uchun) -->
+    <!-- TYPE (hidden, backend) -->
     <input type="hidden" name="type" id="typeInput" value="income">
 
     <!-- Category -->
     <div class="form-group">
       <label>Category</label>
       <select name="category" id="categorySelect" required>
-        <option value="">Kategoriya tanlang</option>
+        <option value="">Select category</option>
         {% for category in categories %}
           <option value="{{ category.id }}" data-type="{{ category.type }}">
             {{ category.name }}
@@ -122,18 +122,18 @@
 
     <!-- Amount -->
     <div class="form-group">
-      <label>Summa</label>
-      <input type="number" step="0.01" name="amount" placeholder="Masalan: 100000" required>
+      <label>Amount</label>
+      <input type="number" step="0.01" name="amount" placeholder="Example: 100000" required>
     </div>
 
     <!-- Description -->
     <div class="form-group">
-      <label>Izoh</label>
-      <textarea name="desc" placeholder="Izoh (ixtiyoriy)"></textarea>
+      <label>Description</label>
+      <textarea name="desc" placeholder="Description (optional)"></textarea>
     </div>
 
     <button type="submit" class="submit-btn income-btn" id="submitBtn">
-      Saqlash
+      Save
     </button>
   </form>
 </div>

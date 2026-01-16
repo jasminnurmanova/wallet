@@ -58,9 +58,9 @@
             <div
               class="h-10 w-10 rounded-full flex items-center justify-center
                      {% if tx.type == 'income' %}
-                       bg-success-100 text-success-600
+                       bg-blue-100 text-blue-600
                      {% else %}
-                       bg-red-100 text-red-600
+                       bg-orange-100 text-orange-600
                      {% endif %}">
               {% if tx.type == 'income' %}+{% else %}-{% endif %}
             </div>
@@ -84,9 +84,9 @@
           <div class="text-right">
             <p class="text-lg font-bold
               {% if tx.type == 'income' %}
-                text-success-600
+                text-blue-600
               {% else %}
-                text-red-600
+                text-orange-600
               {% endif %}">
               {% if tx.type == 'income' %}+{% else %}-{% endif %}
               {{ tx.amount }} so'm

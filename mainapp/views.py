@@ -25,14 +25,24 @@ def home(request):
 
     result2 = IncomeOutcome.objects.filter(type='outcome').aggregate(total=Sum('amount'))
     outcome = result2['total'] or 0
+
+    total_transactions = income + outcome
+    if total_transactions > 0:
+        income_percentage = round((income / total_transactions) * 100)
+        outcome_percentage = round((outcome / total_transactions) * 100)
+    else:
+        income_percentage = 0
+        outcome_percentage = 0
+
     return render(request, 'index-2.html', context={
-        "total":total,
+        "total": total,
         "income": income,
         "outcome": outcome,
+        "income_percentage": income_percentage,
+        "outcome_percentage": outcome_percentage,
         "wallets": wallets,
         "histories": histories
     })
-
 
 @login_required
 def transaction(request):
