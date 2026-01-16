@@ -44,7 +44,6 @@ def transaction(request):
         wallet_id = request.POST.get("wallet")
         category_id = request.POST.get("category")
         type_ = request.POST.get("type")
-        come_type = request.POST.get("come_type")
         amount = request.POST.get("amount")
         desc = request.POST.get("desc")
 
@@ -56,7 +55,6 @@ def transaction(request):
             user=user,
             category=category,
             type=type_,
-            come_type=come_type,
             amount=amount,
             desc=desc
         )
