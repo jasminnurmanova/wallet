@@ -25,7 +25,7 @@
           <div
             class="sidebar-header relative z-30 flex h-[108px] w-full items-center border-b border-r border-b-[#F7F7F7] border-r-[#F7F7F7] pl-[50px] dark:border-darkblack-400"
           >
-            <a href="index.html">
+            <a href="{% url 'main:home' %}">
               <img
                 src="{% static './assets/images/logo/logo-color.svg' %}"
                 class="block dark:hidden"
@@ -162,7 +162,7 @@
                     </a>
                   </li>
                   <li class="item py-[11px] text-bgray-900 dark:text-white">
-                    <a href="my-wallet.html">
+                    <a href="{% url 'main:wallet' %}">
                       <div class="flex items-center justify-between">
                         <div class="flex items-center space-x-2.5">
                           <span class="item-ico">
@@ -189,84 +189,6 @@
                             class="item-text text-lg font-medium leading-none"
                             >My Wallet</span
                           >
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <li class="item py-[11px] text-bgray-900 dark:text-white">
-                    <a href="messages.html">
-                      <div class="flex items-center justify-between">
-                        <div class="flex items-center space-x-2.5">
-                          <span class="item-ico">
-                            <svg
-                              width="24"
-                              height="24"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M11.8889 22C13.4278 22 14.737 21.0724 15.2222 19.7778H8.55554C9.04075 21.0724 10.35 22 11.8889 22Z"
-                                fill="#22C55E"
-                                class="path-2"
-                              />
-                              <path
-                                fill-rule="evenodd"
-                                clip-rule="evenodd"
-                                d="M13.7662 2.83781C13.3045 2.32351 12.6345 2 11.8889 2C10.4959 2 9.36673 3.12921 9.36673 4.52216V4.6374C6.98629 5.45244 5.224 7.38959 4.95607 9.75021L4.4592 14.1281C4.36971 14.9165 4.03716 15.6684 3.49754 16.3024C2.27862 17.7343 3.43826 19.7778 5.46979 19.7778H18.308C20.3395 19.7778 21.4992 17.7343 20.2802 16.3024C19.7406 15.6684 19.4081 14.9165 19.3186 14.1281L18.8217 9.75021C18.8148 9.68916 18.8068 9.6284 18.7979 9.56793C18.3712 9.70421 17.9164 9.77778 17.4444 9.77778C14.9898 9.77778 13 7.78793 13 5.33333C13 4.40827 13.2826 3.54922 13.7662 2.83781Z"
-                                fill="#1A202C"
-                                class="path-1"
-                              />
-                              <circle
-                                cx="17.4444"
-                                cy="5.33333"
-                                r="3.33333"
-                                fill="#22C55E"
-                                class="path-2"
-                              />
-                            </svg>
-                          </span>
-                          <span
-                            class="item-text text-lg font-medium leading-none"
-                            >Inbox</span
-                          >
-                        </div>
-                        <div class="flex items-center space-x-2.5">
-                          <!--edit-->
-                          <span>
-                            <svg
-                              width="10"
-                              height="11"
-                              viewBox="0 0 10 11"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M0.879751 10.0038L3.16823 9.67657C3.49833 9.62937 3.80424 9.47626 4.04003 9.24024L8.45886 4.81709C8.45886 4.81709 7.36911 4.81709 6.27936 3.72628C5.18961 2.63546 5.18961 1.54465 5.18961 1.54465L0.770776 5.9678C0.534986 6.20382 0.382033 6.51002 0.334876 6.84045L0.00795056 9.13116C-0.0646994 9.64021 0.371201 10.0765 0.879751 10.0038Z"
-                                fill="#1A202C"
-                              />
-                              <path
-                                opacity="0.4"
-                                d="M9.5487 1.5446L8.45895 0.453784C7.8571 -0.148657 6.8813 -0.148657 6.27945 0.453784L5.1897 1.5446C5.1897 1.5446 5.1897 2.63542 6.27945 3.72623C7.3692 4.81705 8.45895 4.81705 8.45895 4.81705L9.5487 3.72623C10.1506 3.12379 10.1506 2.14704 9.5487 1.5446Z"
-                                fill="#1A202C"
-                              />
-                            </svg>
-                          </span>
-                          <!--edit-->
-                          <div>
-                            <img
-                              src="{% static './assets/images/avatar/profile-xs.png' %}"
-                              alt="profile"
-                            />
-                          </div>
-                          <!--counter-->
-                          <div
-                            class="flex h-5 w-5 items-center justify-center rounded-full bg-success-300"
-                          >
-                            <span class="text-[10px] font-semibold text-white"
-                              >5</span
-                            >
-                          </div>
                         </div>
                       </div>
                     </a>
@@ -313,61 +235,7 @@
                     </a>
                   </li>
                   <li class="item py-[11px] text-bgray-900 dark:text-white">
-                    <a href="calender.html">
-                      <div class="flex items-center justify-between">
-                        <div class="flex items-center space-x-2.5">
-                          <span class="item-ico">
-                            <svg
-                              width="18"
-                              height="21"
-                              viewBox="0 0 18 21"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M0 6.5C0 4.29086 1.79086 2.5 4 2.5H14C16.2091 2.5 18 4.29086 18 6.5V8V17C18 19.2091 16.2091 21 14 21H4C1.79086 21 0 19.2091 0 17V8V6.5Z"
-                                fill="#1A202C"
-                                class="path-1"
-                              />
-                              <path
-                                d="M14 2.5H4C1.79086 2.5 0 4.29086 0 6.5V8H18V6.5C18 4.29086 16.2091 2.5 14 2.5Z"
-                                fill="#22C55E"
-                                class="path-2"
-                              />
-                              <path
-                                fill-rule="evenodd"
-                                clip-rule="evenodd"
-                                d="M5 0.25C5.41421 0.25 5.75 0.585786 5.75 1V4C5.75 4.41421 5.41421 4.75 5 4.75C4.58579 4.75 4.25 4.41421 4.25 4V1C4.25 0.585786 4.58579 0.25 5 0.25ZM13 0.25C13.4142 0.25 13.75 0.585786 13.75 1V4C13.75 4.41421 13.4142 4.75 13 4.75C12.5858 4.75 12.25 4.41421 12.25 4V1C12.25 0.585786 12.5858 0.25 13 0.25Z"
-                                fill="#1A202C"
-                                class="path-2"
-                              />
-                              <circle cx="9" cy="14" r="1" fill="#22C55E" />
-                              <circle
-                                cx="13"
-                                cy="14"
-                                r="1"
-                                fill="#22C55E"
-                                class="path-2"
-                              />
-                              <circle
-                                cx="5"
-                                cy="14"
-                                r="1"
-                                fill="#22C55E"
-                                class="path-2"
-                              />
-                            </svg>
-                          </span>
-                          <span
-                            class="item-text text-lg font-medium leading-none"
-                            >Calender</span
-                          >
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <li class="item py-[11px] text-bgray-900 dark:text-white">
-                    <a href="history.html">
+                    <a href="{% url 'main:history' %}">
                       <div class="flex items-center justify-between">
                         <div class="flex items-center space-x-2.5">
                           <span class="item-ico">
@@ -415,112 +283,6 @@
                 </ul>
               </div>
             </div>
-            <div class="upgrade-wrapper mb-[26px] h-[172px] w-full pr-[24px]">
-              <div
-                class="upgrade-banner relative h-full w-full rounded-lg"
-                style="background-image: url(./assets/images/bg/upgrade-bg.png)"
-              >
-                <div
-                  style="left: calc(50% - 20px); top: -20px"
-                  class="absolute flex h-10 w-10 items-center justify-center rounded-full border border-white bg-success-300"
-                >
-                  <span>
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M14 12.75C14 11.7835 13.1046 11 12 11C10.8954 11 10 11.7835 10 12.75C10 13.7165 10.8954 14.5 12 14.5C13.1046 14.5 14 15.2835 14 16.25C14 17.2165 13.1046 18 12 18C10.8954 18 10 17.2165 10 16.25"
-                        stroke="white"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                      />
-                      <path
-                        d="M12 9.5V11"
-                        stroke="white"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M12 18V19.5"
-                        stroke="white"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M5.63246 11.1026C6.44914 8.65258 8.74197 7 11.3246 7H12.6754C15.258 7 17.5509 8.65258 18.3675 11.1026L19.3675 14.1026C20.6626 17.9878 17.7708 22 13.6754 22H10.3246C6.22921 22 3.33739 17.9878 4.63246 14.1026L5.63246 11.1026Z"
-                        stroke="white"
-                        stroke-width="1.5"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M14.0859 7L9.91411 7L8.51303 5.39296C7.13959 3.81763 8.74185 1.46298 10.7471 2.10985L11.6748 2.40914C11.8861 2.47728 12.1139 2.47728 12.3252 2.40914L13.2529 2.10985C15.2582 1.46298 16.8604 3.81763 15.487 5.39296L14.0859 7Z"
-                        stroke="white"
-                        stroke-width="1.5"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </span>
-                </div>
-                <h1 class="mb-2 pt-8 text-center text-xl font-bold text-white">
-                  Unlimited Cashback
-                </h1>
-                <p
-                  class="mb-2 px-7 text-center text-sm leading-5 text-white opacity-[0.5]"
-                >
-                  Instant 2% back on all your spend to your account.
-                </p>
-                <div class="flex justify-center">
-                  <a href="#">
-                    <div
-                      class="flex h-[36px] w-[134px] justify-center rounded-lg bg-success-300 transition duration-300 ease-in-out hover:bg-success-400"
-                    >
-                      <div class="flex items-center space-x-1.5">
-                        <span class="text-sm font-semibold text-white"
-                          >Upgrade Now</span
-                        >
-                        <span>
-                          <svg
-                            width="12"
-                            height="8"
-                            viewBox="0 0 12 8"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M1.33301 4H10.6663"
-                              stroke="white"
-                              stroke-width="1.5"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            />
-                            <path
-                              d="M8 6.66667L10.6667 4"
-                              stroke="white"
-                              stroke-width="1.5"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            />
-                            <path
-                              d="M8 1.33325L10.6667 3.99992"
-                              stroke="white"
-                              stroke-width="1.5"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            />
-                          </svg>
-                        </span>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
             <div class="copy-write-text">
               <p class="text-sm text-[#969BA0]">© 2023 All Rights Reserved</p>
               <p class="text-sm font-medium text-bgray-700">
@@ -538,7 +300,7 @@
             <div
               class="sidebar-header sticky top-0 z-20 flex h-[108px] w-full items-center justify-center border-b border-r border-b-[#F7F7F7] border-r-[#F7F7F7] bg-white dark:border-darkblack-500 dark:bg-darkblack-600"
             >
-              <a href="index.html">
+              <a href="{% url 'main:home' %}">
                 <img
                   src="{% static './assets/images/logo/logo-short.svg' %}"
                   class="block dark:hidden"
@@ -559,7 +321,7 @@
                       class="mt-2.5 flex flex-col items-center justify-center"
                     >
                       <li class="item px-[43px] py-[11px]">
-                        <a href="index.html">
+                        <a href="{% url 'main:home' %}">
                           <span class="item-ico">
                             <svg
                               width="18"
@@ -716,7 +478,7 @@
                         </a>
                       </li>
                       <li class="item px-[43px] py-[11px]">
-                        <a href="my-wallet.html">
+                        <a href="{% url 'main:wallet' %}">
                           <span class="item-ico">
                             <svg
                               width="20"
@@ -1111,67 +873,6 @@
                 </p>
               </div>
               <!--              search-bar-->
-              <div class="searchbar-wrapper">
-                <div
-                  class="px flex h-[56px] w-[300px] items-center justify-between rounded-lg border border-transparent bg-bgray-50 px-4 focus-within:border-success-300 dark:bg-darkblack-500 lg:w-[400px]"
-                >
-                  <div class="flex w-full items-center space-x-3.5">
-                    <span>
-                      <svg
-                        class="stroke-bgray-900 dark:stroke-bgray-50"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 20 20"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <circle
-                          cx="9.78639"
-                          cy="9.78602"
-                          r="8.23951"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          d="M15.5176 15.9447L18.7479 19.1667"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
-                    </span>
-                    <label for="search" class="w-full">
-                      <input
-                        type="text"
-                        id="search"
-                        placeholder="Search..."
-                        class="search-input w-full border-none bg-bgray-50 bg-none px-0 text-sm tracking-wide text-bgray-600 placeholder:text-sm placeholder:font-semibold focus:outline-none focus:ring-0 dark:bg-darkblack-500 dark:placeholder:text-bgray-500"
-                      />
-                    </label>
-                  </div>
-                  <div class="flex items-center space-x-[6px]">
-                    <span>
-                      <svg
-                        class="stroke-bgray-900 dark:stroke-gray-300"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 16 16"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M5.975 12.3875C5.975 12.8548 5.83644 13.3115 5.57685 13.7C5.31725 14.0885 4.94828 14.3914 4.51659 14.5702C4.0849 14.749 3.60988 14.7958 3.1516 14.7046C2.69332 14.6134 2.27236 14.3884 1.94196 14.058C1.61156 13.7276 1.38655 13.3067 1.2954 12.8484C1.20424 12.3901 1.25102 11.9151 1.42984 11.4834C1.60865 11.0517 1.91146 10.6827 2.29997 10.4232C2.68848 10.1636 3.14524 10.025 3.6125 10.025H12.3875C12.8548 10.025 13.3115 10.1636 13.7 10.4232C14.0885 10.6827 14.3914 11.0517 14.5702 11.4834C14.749 11.9151 14.7958 12.3901 14.7046 12.8484C14.6134 13.3067 14.3884 13.7276 14.058 14.058C13.7276 14.3884 13.3067 14.6134 12.8484 14.7046C12.3901 14.7958 11.9151 14.749 11.4834 14.5702C11.0517 14.3914 10.6827 14.0885 10.4232 13.7C10.1636 13.3115 10.025 12.8548 10.025 12.3875V3.6125C10.025 3.14524 10.1636 2.68848 10.4232 2.29997C10.6827 1.91146 11.0517 1.60865 11.4834 1.42984C11.9151 1.25102 12.3901 1.20424 12.8484 1.2954C13.3067 1.38655 13.7276 1.61156 14.058 1.94196C14.3884 2.27236 14.6134 2.69332 14.7046 3.1516C14.7958 3.60988 14.749 4.0849 14.5702 4.51659C14.3914 4.94828 14.0885 5.31725 13.7 5.57685C13.3115 5.83644 12.8548 5.975 12.3875 5.975H3.6125C3.14524 5.975 2.68848 5.83644 2.29997 5.57685C1.91146 5.31725 1.60865 4.94828 1.42984 4.51659C1.25102 4.0849 1.20424 3.60988 1.2954 3.1516C1.38655 2.69332 1.61156 2.27236 1.94196 1.94196C2.27236 1.61156 2.69332 1.38655 3.1516 1.2954C3.60988 1.20424 4.0849 1.25102 4.51659 1.42984C4.94828 1.60865 5.31725 1.91146 5.57685 2.29997C5.83644 2.68848 5.975 3.14524 5.975 3.6125V12.3875Z"
-                          stroke-width="1.5"
-                        />
-                      </svg>
-                    </span>
-                    <span class="text-base text-bgray-900 dark:text-bgray-300"
-                      >K</span
-                    >
-                  </div>
-                </div>
-              </div>
               <!--  quick access-->
               <div class="quick-access-wrapper relative">
                 <div class="flex items-center space-x-[43px]">
@@ -1240,54 +941,35 @@
                         </svg>
                       </span>
                     </button>
-                    <button
-                      onclick="messageAction()"
-                      type="button"
-                      id="message-btn"
-                      class="relative flex h-[52px] w-[52px] items-center justify-center rounded-[12px] border border-success-300 dark:border-darkblack-400"
+                  <a
+                    href="{% url 'login' %}"
+                    class="relative flex h-[52px] w-[52px] items-center justify-center rounded-[12px] border border-success-300 dark:border-darkblack-400"
+                  >
+                    <svg
+                      class="stroke-bgray-900 dark:stroke-white"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <span
-                        class="absolute -right-[5px] -top-[2px] h-3.5 w-3.5 rounded-full border-2 border-white bg-error-300 dark:border-none"
-                      ></span>
-                      <svg
-                        class="stroke-bgray-900 dark:stroke-white"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M2 12V7C2 4.79086 3.79086 3 6 3H18C20.2091 3 22 4.79086 22 7V17C22 19.2091 20.2091 21 18 21H8M6 8L9.7812 10.5208C11.1248 11.4165 12.8752 11.4165 14.2188 10.5208L18 8M2 15H8M2 18H8"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                        />
-                      </svg>
-                    </button>
-                    <button
-                      onclick="storeAction()"
-                      type="button"
-                      id="store-btn"
-                      class="relative flex h-[52px] w-[52px] items-center justify-center rounded-[12px] border border-success-300 dark:border-darkblack-400"
-                    >
-                      <span
-                        class="absolute -right-[5px] -top-[2px] h-3.5 w-3.5 rounded-full border-2 border-white bg-bgray-300 dark:border-none dark:bg-bgray-600"
-                      ></span>
-                      <svg
-                        class="stroke-bgray-900 dark:stroke-white"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M4 11H20M4 11C2.89543 11 2 10.1046 2 9V8C2 6.89543 2.89543 6 4 6H20C21.1046 6 22 6.89543 22 8V9C22 10.1046 21.1046 11 20 11M4 11L4 20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V11M12 6H16C17.1046 6 18 5.10457 18 4C18 2.89543 17.1046 2 16 2C13.7909 2 12 3.79086 12 6ZM12 6H8C6.89543 6 6 5.10457 6 4C6 2.89543 6.89543 2 8 2C10.2091 2 12 3.79086 12 6ZM12 6V22"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                        />
-                      </svg>
-                    </button>
+                      <!-- User -->
+                      <path
+                        d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z"
+                        stroke-width="1.5"
+                      />
+                      <path
+                        d="M20 22C20 18.134 16.4183 15 12 15C7.58172 15 4 18.134 4 22"
+                        stroke-width="1.5"
+                      />
+                      <!-- Plus -->
+                      <path
+                        d="M19 8V14M22 11H16"
+                        stroke-width="1.5"
+                      />
+                    </svg>
+                  </a>
+
                   </div>
                   <div
                     class="hidden h-[48px] w-[1px] bg-bgray-300 dark:bg-darkblack-400 xl:block"
@@ -1300,11 +982,12 @@
                     <div
                       class="h-[52px] w-[52px] overflow-hidden rounded-xl border border-bgray-300"
                     >
-                      <img
-                        class="object-cover"
-                        src="{% static './assets/images/avatar/profile-52x52.png' %} "
-                        alt="avater"
-                      />
+                      {% if user.avatar %}
+            <img src="{{ user.avatar.url }}" class="profile-avatar">
+        {% else %}
+            <img src="https://via.placeholder.com/120" class="profile-avatar">
+        {% endif %}
+
                     </div>
                     <div class="hidden 2xl:block">
                       <div class="flex items-center space-x-2.5">
@@ -1340,549 +1023,6 @@
                   </div>
                 </div>
                 <!--                notification ,message, store-->
-                <div class="notification-popup-wrapper">
-                  <div
-                    onclick="notificationAction()"
-                    id="noti-outside"
-                    class="fixed -left-[43px] top-0 hidden h-full w-full"
-                  ></div>
-                  <div
-                    id="notification-box"
-                    style="
-                      filter: drop-shadow(12px 12px 40px rgba(0, 0, 0, 0.08));
-                    "
-                    class="absolute -left-[347px] top-[81px] hidden w-[400px] rounded-lg bg-white dark:bg-darkblack-600"
-                  >
-                    <div class="relative w-full pb-[75px] pt-[66px]">
-                      <div
-                        class="absolute left-0 top-0 flex h-[66px] w-full items-center justify-between px-8"
-                      >
-                        <h3
-                          class="text-xl font-bold text-bgray-900 dark:text-white"
-                        >
-                          Notifications
-                        </h3>
-                        <span>
-                          <svg
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M10.325 4.317C10.751 2.561 13.249 2.561 13.675 4.317C13.7389 4.5808 13.8642 4.82578 14.0407 5.032C14.2172 5.23822 14.4399 5.39985 14.6907 5.50375C14.9414 5.60764 15.2132 5.65085 15.4838 5.62987C15.7544 5.60889 16.0162 5.5243 16.248 5.383C17.791 4.443 19.558 6.209 18.618 7.753C18.4769 7.98466 18.3924 8.24634 18.3715 8.51677C18.3506 8.78721 18.3938 9.05877 18.4975 9.30938C18.6013 9.55999 18.7627 9.78258 18.9687 9.95905C19.1747 10.1355 19.4194 10.2609 19.683 10.325C21.439 10.751 21.439 13.249 19.683 13.675C19.4192 13.7389 19.1742 13.8642 18.968 14.0407C18.7618 14.2172 18.6001 14.4399 18.4963 14.6907C18.3924 14.9414 18.3491 15.2132 18.3701 15.4838C18.3911 15.7544 18.4757 16.0162 18.617 16.248C19.557 17.791 17.791 19.558 16.247 18.618C16.0153 18.4769 15.7537 18.3924 15.4832 18.3715C15.2128 18.3506 14.9412 18.3938 14.6906 18.4975C14.44 18.6013 14.2174 18.7627 14.0409 18.9687C13.8645 19.1747 13.7391 19.4194 13.675 19.683C13.249 21.439 10.751 21.439 10.325 19.683C10.2611 19.4192 10.1358 19.1742 9.95929 18.968C9.7828 18.7618 9.56011 18.6001 9.30935 18.4963C9.05859 18.3924 8.78683 18.3491 8.51621 18.3701C8.24559 18.3911 7.98375 18.4757 7.752 18.617C6.209 19.557 4.442 17.791 5.382 16.247C5.5231 16.0153 5.60755 15.7537 5.62848 15.4832C5.64942 15.2128 5.60624 14.9412 5.50247 14.6906C5.3987 14.44 5.23726 14.2174 5.03127 14.0409C4.82529 13.8645 4.58056 13.7391 4.317 13.675C2.561 13.249 2.561 10.751 4.317 10.325C4.5808 10.2611 4.82578 10.1358 5.032 9.95929C5.23822 9.7828 5.39985 9.56011 5.50375 9.30935C5.60764 9.05859 5.65085 8.78683 5.62987 8.51621C5.60889 8.24559 5.5243 7.98375 5.383 7.752C4.443 6.209 6.209 4.442 7.753 5.382C8.753 5.99 10.049 5.452 10.325 4.317Z"
-                              stroke="#A0AEC0"
-                              stroke-width="1.5"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            />
-                            <path
-                              d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z"
-                              stroke="#A0AEC0"
-                              stroke-width="1.5"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            />
-                          </svg>
-                        </span>
-                      </div>
-                      <ul
-                        class="scroll-style-1 h-[335px] w-full overflow-y-scroll"
-                      >
-                        <li
-                          class="border-b border-bgray-200 py-4 pl-6 pr-[50px] hover:bg-bgray-100 dark:border-darkblack-400 dark:hover:bg-darkblack-500"
-                        >
-                          <a href="#">
-                            <div class="noti-item">
-                              <p
-                                class="mb-1 text-sm font-medium text-bgray-600 dark:text-bgray-50"
-                              >
-                                <strong class="text-bgray-900 dark:text-white"
-                                  >James Eusobio</strong
-                                >
-                                send a new payment for
-                                <strong class="text-bgray-900 dark:text-white"
-                                  >SEO writing</strong
-                                >
-                                totaling
-                                <span class="text-success-300">$199.00</span>
-                              </p>
-                              <span class="text-xs font-medium text-bgray-500"
-                                >23 mins ago</span
-                              >
-                            </div>
-                          </a>
-                        </li>
-                        <li
-                          class="border-b border-bgray-200 py-4 pl-6 pr-[50px] hover:bg-bgray-100 dark:border-darkblack-400 dark:hover:bg-darkblack-500"
-                        >
-                          <a href="#">
-                            <div class="noti-item">
-                              <p
-                                class="mb-1 text-sm font-medium text-bgray-600 dark:text-white"
-                              >
-                                <strong
-                                  class="text-bgray-900 dark:text-bgray-50"
-                                  >James Eusobio</strong
-                                >
-                                send a new payment for
-                                <strong
-                                  class="text-bgray-900 dark:text-bgray-50"
-                                  >SEO writing</strong
-                                >
-                                totaling
-                                <span class="text-error-200">$199.00</span>
-                              </p>
-                              <span class="text-xs font-medium text-bgray-500"
-                                >23 mins ago</span
-                              >
-                            </div>
-                          </a>
-                        </li>
-                        <li
-                          class="border-b border-bgray-200 py-4 pl-6 pr-[50px] hover:bg-bgray-100 dark:border-darkblack-400 dark:hover:bg-darkblack-500"
-                        >
-                          <a href="#">
-                            <div class="noti-item">
-                              <p
-                                class="mb-1 text-sm font-medium text-bgray-600 dark:text-bgray-50"
-                              >
-                                <strong class="text-bgray-900 dark:text-white"
-                                  >James Eusobio</strong
-                                >
-                                send a new payment for
-                                <strong class="text-bgray-900 dark:text-white"
-                                  >SEO writing</strong
-                                >
-                                totaling
-                                <span class="text-success-300">$199.00</span>
-                              </p>
-                              <span class="text-xs font-medium text-bgray-500"
-                                >23 mins ago</span
-                              >
-                            </div>
-                          </a>
-                        </li>
-                        <li
-                          class="border-b border-bgray-200 py-4 pl-6 pr-[50px] hover:bg-bgray-100 dark:border-darkblack-400 dark:hover:bg-darkblack-500"
-                        >
-                          <a href="#">
-                            <div class="noti-item">
-                              <p
-                                class="mb-1 text-sm font-medium text-bgray-600 dark:text-bgray-50"
-                              >
-                                <strong class="text-bgray-900 dark:text-white"
-                                  >James Eusobio</strong
-                                >
-                                send a new payment for
-                                <strong class="text-bgray-900 dark:text-white"
-                                  >SEO writing</strong
-                                >
-                                totaling
-                                <span class="text-success-300">$199.00</span>
-                              </p>
-                              <span class="text-xs font-medium text-bgray-500"
-                                >23 mins ago</span
-                              >
-                            </div>
-                          </a>
-                        </li>
-                        <li
-                          class="border-b border-bgray-200 py-4 pl-6 pr-[50px] hover:bg-bgray-100 dark:border-darkblack-400 dark:hover:bg-darkblack-500"
-                        >
-                          <a href="#">
-                            <div class="noti-item">
-                              <p
-                                class="mb-1 text-sm font-medium text-bgray-600 dark:text-bgray-50"
-                              >
-                                <strong class="text-bgray-900 dark:text-white"
-                                  >James Eusobio</strong
-                                >
-                                send a new payment for
-                                <strong class="text-bgray-900 dark:text-white"
-                                  >SEO writing</strong
-                                >
-                                totaling
-                                <span class="text-success-300">$199.00</span>
-                              </p>
-                              <span class="text-xs font-medium text-bgray-500"
-                                >23 mins ago</span
-                              >
-                            </div>
-                          </a>
-                        </li>
-                      </ul>
-                      <div
-                        class="absolute bottom-0 left-0 flex h-[75px] w-full items-center justify-between px-8"
-                      >
-                        <div>
-                          <a href="#">
-                            <div class="flex items-center space-x-2">
-                              <span>
-                                <svg
-                                  width="22"
-                                  height="12"
-                                  viewBox="0 0 22 12"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <path
-                                    d="M6 6L11 11L21 1M1 6L6 11M11 6L16 1"
-                                    stroke="#0CAF60"
-                                    stroke-width="1.5"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                  />
-                                </svg>
-                              </span>
-
-                            </div>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="message-popup-wrapper">
-                  <div
-                    onclick="messageAction()"
-                    id="mes-outside"
-                    class="fixed -left-[43px] top-0 hidden h-full w-full"
-                  ></div>
-                  <div
-                    id="message-box"
-                    style="
-                      filter: drop-shadow(12px 12px 40px rgba(0, 0, 0, 0.08));
-                    "
-                    class="absolute -left-[276px] top-[81px] hidden w-[400px] rounded-lg bg-white dark:bg-darkblack-600"
-                  >
-                    <div class="relative w-full pb-[75px] pt-[66px]">
-                      <div
-                        class="absolute left-0 top-0 flex h-[66px] w-full items-center justify-between px-8"
-                      >
-                        <h3
-                          class="text-xl font-bold text-bgray-900 dark:text-white"
-                        >
-                          Message
-                        </h3>
-                        <span>
-                          <svg
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M10.325 4.317C10.751 2.561 13.249 2.561 13.675 4.317C13.7389 4.5808 13.8642 4.82578 14.0407 5.032C14.2172 5.23822 14.4399 5.39985 14.6907 5.50375C14.9414 5.60764 15.2132 5.65085 15.4838 5.62987C15.7544 5.60889 16.0162 5.5243 16.248 5.383C17.791 4.443 19.558 6.209 18.618 7.753C18.4769 7.98466 18.3924 8.24634 18.3715 8.51677C18.3506 8.78721 18.3938 9.05877 18.4975 9.30938C18.6013 9.55999 18.7627 9.78258 18.9687 9.95905C19.1747 10.1355 19.4194 10.2609 19.683 10.325C21.439 10.751 21.439 13.249 19.683 13.675C19.4192 13.7389 19.1742 13.8642 18.968 14.0407C18.7618 14.2172 18.6001 14.4399 18.4963 14.6907C18.3924 14.9414 18.3491 15.2132 18.3701 15.4838C18.3911 15.7544 18.4757 16.0162 18.617 16.248C19.557 17.791 17.791 19.558 16.247 18.618C16.0153 18.4769 15.7537 18.3924 15.4832 18.3715C15.2128 18.3506 14.9412 18.3938 14.6906 18.4975C14.44 18.6013 14.2174 18.7627 14.0409 18.9687C13.8645 19.1747 13.7391 19.4194 13.675 19.683C13.249 21.439 10.751 21.439 10.325 19.683C10.2611 19.4192 10.1358 19.1742 9.95929 18.968C9.7828 18.7618 9.56011 18.6001 9.30935 18.4963C9.05859 18.3924 8.78683 18.3491 8.51621 18.3701C8.24559 18.3911 7.98375 18.4757 7.752 18.617C6.209 19.557 4.442 17.791 5.382 16.247C5.5231 16.0153 5.60755 15.7537 5.62848 15.4832C5.64942 15.2128 5.60624 14.9412 5.50247 14.6906C5.3987 14.44 5.23726 14.2174 5.03127 14.0409C4.82529 13.8645 4.58056 13.7391 4.317 13.675C2.561 13.249 2.561 10.751 4.317 10.325C4.5808 10.2611 4.82578 10.1358 5.032 9.95929C5.23822 9.7828 5.39985 9.56011 5.50375 9.30935C5.60764 9.05859 5.65085 8.78683 5.62987 8.51621C5.60889 8.24559 5.5243 7.98375 5.383 7.752C4.443 6.209 6.209 4.442 7.753 5.382C8.753 5.99 10.049 5.452 10.325 4.317Z"
-                              stroke="#A0AEC0"
-                              stroke-width="1.5"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            />
-                            <path
-                              d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z"
-                              stroke="#A0AEC0"
-                              stroke-width="1.5"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            />
-                          </svg>
-                        </span>
-                      </div>
-                      <div>
-                        <div
-                          class="flex items-center border-b border-bgray-200 dark:border-darkblack-400"
-                        >
-                          <button
-                            type="button"
-                            class="flex space-x-2 border-b-2 border-success-300 px-6 py-4 text-sm font-semibold capitalize text-success-300"
-                          >
-                            <span>All</span>
-                            <span
-                              class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-success-50 text-[10px] text-success-300"
-                              >2</span
-                            >
-                          </button>
-                        </div>
-                        <ul
-                          class="scroll-style-1 h-[335px] w-full overflow-y-scroll"
-                        >
-                          <li
-                            class="border-b border-bgray-200 px-7 py-6 hover:bg-bgray-100 dark:border-darkblack-400 dark:hover:bg-darkblack-500"
-                          >
-                            <a href="#">
-                              <div class="flex space-x-3">
-                                <div
-                                  class="relative h-[48px] w-[48px] rounded-full"
-                                >
-                                  <img
-                                    src="{% static './assets/images/avatar/inbox-1.png' %}"
-                                    alt="avatar"
-                                    class="h-full w-full object-cover"
-                                  />
-                                  <div
-                                    class="absolute bottom-0 right-0 h-3 w-3 rounded-full border border-white bg-bgray-300"
-                                  ></div>
-                                </div>
-                                <div class="flex-1">
-                                  <p
-                                    class="mb-1 text-base font-bold text-bgray-900 dark:text-white"
-                                  >
-                                    James Eusobio
-                                  </p>
-                                  <p
-                                    class="text-sm font-medium text-bgray-500 dark:text-bgray-50"
-                                  >
-                                    Hi, how are you? nedd help! .......
-                                  </p>
-                                  <span
-                                    class="text-sm font-medium text-bgray-500 dark:text-bgray-50"
-                                    >23 mins ago</span
-                                  >
-                                </div>
-                              </div>
-                            </a>
-                          </li>
-                          <li
-                            class="border-b border-bgray-200 px-7 py-6 hover:bg-bgray-100 dark:border-darkblack-400 dark:hover:bg-darkblack-500"
-                          >
-                            <a href="#">
-                              <div class="flex space-x-3">
-                                <div
-                                  class="relative h-[48px] w-[48px] rounded-full"
-                                >
-                                  <img
-                                    src="./assets/images/avatar/inbox-2.png"
-                                    alt="avatar"
-                                    class="h-full w-full object-cover"
-                                  />
-                                  <div
-                                    class="absolute bottom-0 right-0 h-3 w-3 rounded-full border border-white bg-success-300"
-                                  ></div>
-                                </div>
-                                <div class="flex-1">
-                                  <p
-                                    class="mb-1 text-base font-bold text-bgray-900"
-                                  >
-                                    Eusobio Joy
-                                  </p>
-                                  <p class="text-sm font-medium text-bgray-500">
-                                    Hi, how are you? nedd help! .......
-                                  </p>
-                                  <span
-                                    class="text-sm font-medium text-bgray-500"
-                                    >23 mins ago</span
-                                  >
-                                </div>
-                              </div>
-                            </a>
-                          </li>
-                          <li
-                            class="border-b border-bgray-200 px-7 py-6 hover:bg-bgray-100 dark:border-darkblack-400 dark:hover:bg-darkblack-500"
-                          >
-                            <a href="#">
-                              <div class="flex space-x-3">
-                                <div
-                                  class="relative h-[48px] w-[48px] rounded-full"
-                                >
-                                  <img
-                                    src="{% static './assets/images/avatar/inbox-3.png' %}"
-                                    alt="avatar"
-                                    class="h-full w-full object-cover"
-                                  />
-                                  <div
-                                    class="absolute bottom-0 right-0 h-3 w-3 rounded-full border border-white bg-success-300"
-                                  ></div>
-                                </div>
-                                <div class="flex-1">
-                                  <p
-                                    class="mb-1 text-base font-bold text-bgray-900"
-                                  >
-                                    James Camaron
-                                  </p>
-                                  <p class="text-sm font-medium text-bgray-500">
-                                    Hi, how are you? nedd help! .......
-                                  </p>
-                                  <span
-                                    class="text-sm font-medium text-bgray-500"
-                                    >23 mins ago</span
-                                  >
-                                </div>
-                              </div>
-                            </a>
-                          </li>
-                          <li
-                            class="border-b border-bgray-200 px-7 py-6 hover:bg-bgray-100 dark:border-darkblack-400 dark:hover:bg-darkblack-500"
-                          >
-                            <a href="#">
-                              <div class="flex space-x-3">
-                                <div
-                                  class="relative h-[48px] w-[48px] rounded-full"
-                                >
-                                  <img
-                                    src="./assets/images/avatar/inbox-1.png"
-                                    alt="avatar"
-                                    class="h-full w-full object-cover"
-                                  />
-                                  <div
-                                    class="absolute bottom-0 right-0 h-3 w-3 rounded-full border border-white bg-bgray-300"
-                                  ></div>
-                                </div>
-                                <div class="flex-1">
-                                  <p
-                                    class="mb-1 text-base font-bold text-bgray-900"
-                                  >
-                                    James Eusobio
-                                  </p>
-                                  <p class="text-sm font-medium text-bgray-500">
-                                    Hi, how are you? nedd help! .......
-                                  </p>
-                                  <span
-                                    class="text-sm font-medium text-bgray-500"
-                                    >23 mins ago</span
-                                  >
-                                </div>
-                              </div>
-                            </a>
-                          </li>
-                          <li
-                            class="border-b border-bgray-200 px-7 py-6 hover:bg-bgray-100 dark:border-darkblack-400 dark:hover:bg-darkblack-500"
-                          >
-                            <a href="#">
-                              <div class="flex space-x-3">
-                                <div
-                                  class="relative h-[48px] w-[48px] rounded-full"
-                                >
-                                  <img
-                                    src="./assets/images/avatar/inbox-2.png"
-                                    alt="avatar"
-                                    class="h-full w-full object-cover"
-                                  />
-                                  <div
-                                    class="absolute bottom-0 right-0 h-3 w-3 rounded-full border border-white bg-success-300"
-                                  ></div>
-                                </div>
-                                <div class="flex-1">
-                                  <p
-                                    class="mb-1 text-base font-bold text-bgray-900"
-                                  >
-                                    James Eusobio
-                                  </p>
-                                  <p class="text-sm font-medium text-bgray-500">
-                                    Hi, how are you? nedd help! .......
-                                  </p>
-                                  <span
-                                    class="text-sm font-medium text-bgray-500"
-                                    >23 mins ago</span
-                                  >
-                                </div>
-                              </div>
-                            </a>
-                          </li>
-                          <li
-                            class="border-b border-bgray-200 px-7 py-6 hover:bg-bgray-100 dark:border-darkblack-400 dark:hover:bg-darkblack-500"
-                          >
-                            <a href="#">
-                              <div class="flex space-x-3">
-                                <div
-                                  class="relative h-[48px] w-[48px] rounded-full"
-                                >
-                                  <img
-                                    src="./assets/images/avatar/inbox-3.png"
-                                    alt="avatar"
-                                    class="h-full w-full object-cover"
-                                  />
-                                  <div
-                                    class="absolute bottom-0 right-0 h-3 w-3 rounded-full border border-white bg-success-300"
-                                  ></div>
-                                </div>
-                                <div class="flex-1">
-                                  <p
-                                    class="mb-1 text-base font-bold text-bgray-900"
-                                  >
-                                    James Eusobio
-                                  </p>
-                                  <p class="text-sm font-medium text-bgray-500">
-                                    Hi, how are you? nedd help! .......
-                                  </p>
-                                  <span
-                                    class="text-sm font-medium text-bgray-500"
-                                    >23 mins ago</span
-                                  >
-                                </div>
-                              </div>
-                            </a>
-                          </li>
-                          <li
-                            class="border-b border-bgray-200 px-7 py-6 hover:bg-bgray-100 dark:border-darkblack-400 dark:hover:bg-darkblack-500"
-                          >
-                            <a href="#">
-                              <div class="flex space-x-3">
-                                <div
-                                  class="relative h-[48px] w-[48px] rounded-full"
-                                >
-                                  <img
-                                    src="./assets/images/avatar/inbox-1.png"
-                                    alt="avatar"
-                                    class="h-full w-full object-cover"
-                                  />
-                                  <div
-                                    class="absolute bottom-0 right-0 h-3 w-3 rounded-full border border-white bg-bgray-300"
-                                  ></div>
-                                </div>
-                                <div class="flex-1">
-                                  <p
-                                    class="mb-1 text-base font-bold text-bgray-900"
-                                  >
-                                    James Eusobio
-                                  </p>
-                                  <p class="text-sm font-medium text-bgray-500">
-                                    Hi, how are you? nedd help! .......
-                                  </p>
-                                  <span
-                                    class="text-sm font-medium text-bgray-500"
-                                    >23 mins ago</span
-                                  >
-                                </div>
-                              </div>
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-
-                      <div
-                        class="absolute bottom-0 left-0 flex h-[75px] w-full items-center justify-between px-8"
-                      >
-                        <div>
-                          <a href="#">
-                            <div class="flex items-center space-x-2">
-                              <span>
-                                <svg
-                                  width="22"
-                                  height="12"
-                                  viewBox="0 0 22 12"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <path
-                                    d="M6 6L11 11L21 1M1 6L6 11M11 6L16 1"
-                                    stroke="#0CAF60"
-                                    stroke-width="1.5"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                  />
-                                </svg>
-                              </span>
-
-                            </div>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
                 <div class="store-wrapper">
                   <div
                     id="store-outside"
@@ -1896,84 +1036,6 @@
                     "
                     class="absolute -left-[134px] top-[81px] hidden w-[330px] overflow-hidden rounded-lg bg-white dark:bg-darkblack-600"
                   >
-                    <div class="relative w-full p-6">
-                      <div
-                        class="bonus-box-wrapper w-full overflow-hidden pb-[33px]"
-                      >
-                        <div
-                          class="bonus-box relative flex w-full justify-center"
-                        >
-                          <div
-                            style="width: calc(100% - 20px)"
-                            class="absolute left-[10px] top-[5px] h-[200px] rounded-lg bg-success-200"
-                          ></div>
-                          <div
-                            class="relative w-full rounded-lg bg-success-300 p-5"
-                          >
-                            <h3
-                              class="text-center text-[28px] font-bold text-white"
-                            >
-                              60% Bonus
-                            </h3>
-                            <p
-                              class="mb-3 px-5 text-center text-lg font-semibold leading-[24px] text-success-100"
-                            >
-                              Create an Account and Get Bonus
-                            </p>
-                            <div class="flex justify-center">
-                              <a href="#">
-                                <div
-                                  class="flex h-[56px] w-[166px] items-center justify-center rounded-lg bg-warning-300 transition duration-300 ease-in-out hover:bg-warning-200"
-                                >
-                                  <span class="text-sm font-bold text-bgray-900"
-                                    >Discover More</span
-                                  >
-                                </div>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="progess-bar mb-[13px] flex justify-center">
-                        <div class="bonus-per relative">
-                          <div class="bonus-outer">
-                            <div class="bonus-inner">
-                              <div class="number">
-                                <span class="text-sm font-medium text-bgray-900"
-                                  >25%</span
-                                >
-                              </div>
-                            </div>
-                          </div>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="80px"
-                            height="80px"
-                          >
-                            <circle
-                              style="
-                                stroke-dashoffset: calc(215 - 215 * (25 / 100));
-                              "
-                              cx="40"
-                              cy="40"
-                              r="35"
-                              stroke-linecap="round"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                      <p
-                        class="mb-2.5 text-center text-sm font-semibold text-success-300"
-                      >
-                        Discover more
-                      </p>
-                      <div class="flex justify-center">
-                        <img
-                          src="./assets/images/avatar/members.png"
-                          alt="members"
-                        />
-                      </div>
-                    </div>
                   </div>
                 </div>
 
@@ -2182,14 +1244,14 @@
                   </span>
                 </button>
                 <div>
-                  <a href="/">
+                  <a href="{% url 'main:home' %}">
                     <img
-                      src="./assets/images/logo/logo-color.svg"
+                      src="{% static './assets/images/logo/logo-color.svg' %}"
                       class="block dark:hidden"
                       alt="logo"
                     />
                     <img
-                      src="./assets/images/logo/logo-white.svg"
+                      src="{% static './assets/images/logo/logo-white.svg' %}"
                       class="hidden dark:block"
                       alt="logo"
                     />
@@ -2202,21 +1264,21 @@
                   class="flex cursor-pointer space-x-0 lg:space-x-3"
                 >
                   <div
-                    class="h-[52px] w-[52px] overflow-hidden rounded-xl border border-bgray-300"
-                  >
-                    <img
-                      class="object-cover"
-                      src="./assets/images/avatar/profile-52x52.png"
-                      alt="avater"
-                    />
-                  </div>
-                  <div class="hidden 2xl:block">
-                    <div class="flex items-center space-x-2.5">
-                      <h3
-                        class="text-base font-bold leading-[28px] text-bgray-900"
-                      >
-                        John Doe
-                      </h3>
+  class="h-[52px] w-[52px] overflow-hidden rounded-xl border border-bgray-300"
+>
+  {% if user.avatar %}
+    <img src="{{ user.avatar.url }}" class="h-full w-full object-cover">
+  {% else %}
+    <img src="https://via.placeholder.com/52" class="h-full w-full object-cover">
+  {% endif %}
+</div>
+<div class="hidden 2xl:block">
+  <div class="flex items-center space-x-2.5">
+    <h3
+      class="text-base font-bold leading-[28px] text-bgray-900"
+    >
+      {{ user.username }}
+    </h3>
                       <span>
                         <svg
                           width="24"
@@ -3200,4 +2262,3 @@
       revenueFlow.update();
     </script>
 </html>
-

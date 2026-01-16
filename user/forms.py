@@ -20,6 +20,5 @@ class SignupForm(UserCreationForm):
 class UpdateProfileForm(forms.ModelForm):
     class Meta:
         model=CustomUser
-        fields=['first_name','last_name','username','email','tg_username','phone_number','avatar']
-
+        fields=['first_name','last_name','username','email','phone_number','avatar']
 

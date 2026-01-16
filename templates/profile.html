@@ -1,54 +1,96 @@
 {% extends 'base.html' %}
+
 {% block content %}
-<!-- Profile Start -->
-<div class="row">
-    <div class="col-12 card mt-4">
-        <div class="row g-0">
-            <div class="col-12 col-md-3 p-3 d-flex justify-content-center">
-                {% if customuser.avatar %}
-                    <img alt="profile image" class="img-thumbnail" style="width:150px;height:150px;object-fit:cover;" src="{{ customuser.avatar.url }}">
-                {% else %}
-                    <div class="img-thumbnail d-flex align-items-center justify-content-center" style="width:150px;height:150px;">
-                        <i class="bi bi-person" style="font-size: 3rem;"></i>
-                    </div>
-                {% endif %}
-            </div>
-            <div class="col-12 col-md-9 p-3">
-                <h2 class="mb-1">{{ customuser.get_full_name|default:customuser.username }}</h2>
-                <p class="text-muted mb-2">@{{ customuser.username }}{% if customuser.email %} | {{ customuser.email }}{% endif %}</p>
+<style>
+    .profile-wrapper {
+        min-height: 80vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 150px;
+    }
 
-                {% if customuser.phone_number %}
-                    <p class="mb-1"><strong>Phone:</strong> {{ customuser.phone_number }}</p>
-                {% endif %}
-                {% if customuser.tg_username %}
-                    <p class="mb-1"><strong>Telegram:</strong> @{{ customuser.tg_username }}</p>
-                {% endif %}
+    .profile-card {
+        background: #fff;
+        width: 100%;
+        max-width: 500px;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        text-align: center;
+    }
 
-                {% if customuser == request.user %}
-                    <div class="mt-3 d-flex gap-2 flex-wrap">
-                        <a class="btn btn-warning" href="{% url 'users:update_profile' %}">Edit details</a>
-                        <a class="btn btn-danger" href="#">Update Password</a>
-                        <a class="btn btn-danger" href="#">Balance History</a>
+    .profile-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #0d6efd;
+        margin-bottom: 15px;
+    }
 
+    .profile-card h2 {
+        margin-bottom: 5px;
+    }
 
-                    </div>
-                {% else %}
-                    <div class="mt-3 d-flex gap-2 flex-wrap">
-                        {% if customuser.email %}
-                            <a class="btn btn-primary" href="mailto:{{ customuser.email }}">Email</a>
-                        {% endif %}
-                        <a class="btn btn-primary" href="{% url 'users:messenger' customuser.pk %}">Message</a>
-                        {% if customuser.tg_username %}
-                            <a class="btn btn-primary" href="https://t.me/{{ customuser.tg_username }}" target="_blank" rel="noopener noreferrer">Telegram</a>
-                        {% elif customuser.phone_number %}
-                            <a class="btn btn-primary" href="https://t.me/{{ customuser.phone_number }}" target="_blank" rel="noopener noreferrer">Telegram</a>
-                        {% endif %}
-                    </div>
-                {% endif %}
-            </div>
+    .profile-info {
+        margin-top: 20px;
+        text-align: left;
+    }
+
+    .profile-info p {
+        margin-bottom: 10px;
+        font-size: 15px;
+    }
+
+    .profile-info span {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .profile-actions {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .profile-actions a {
+        display: inline-block;
+        padding: 8px 15px;
+        background: #0d6efd;
+        color: #fff;
+        border-radius: 6px;
+        text-decoration: none;
+        margin: 5px;
+        font-size: 14px;
+    }
+
+    .profile-actions a:hover {
+        background: #0b5ed7;
+    }
+</style>
+
+<div class="profile-wrapper">
+    <div class="profile-card">
+
+        {% if user.avatar %}
+            <img src="{{ user.avatar.url }}" class="profile-avatar">
+        {% else %}
+            <img src="https://via.placeholder.com/120" class="profile-avatar">
+        {% endif %}
+
+        <h2>{{ user.username }}</h2>
+        <p>{{ user.email }}</p>
+
+        <div class="profile-info">
+            <p><span>Username:</span> {{ user.username }}</p>
+            <p><span>Email:</span> {{ user.email }}</p>
+            <p><span>Joined:</span> {{ user.date_joined|date:"d M Y" }}</p>
+            <p><span>Last login:</span> {{ user.last_login|date:"d M Y H:i" }}</p>
         </div>
+        <a href="{% url 'users:update_profile' %}">Update Profile</a>
+
+
+
     </div>
 </div>
-<!-- Profile End -->
-
-{% endblock content %}
+{% endblock %}

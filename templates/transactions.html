@@ -78,7 +78,7 @@
 </style>
 
 <div class="form-wrapper">
-  <h2>Kirim / Chiqim qo‘shish</h2>
+  <h2>Kirim / Chiqim qo'shish</h2>
 
   <!-- INCOME / OUTCOME BUTTONS -->
   <div style="display:flex; gap:12px; margin-bottom:20px;">
@@ -99,40 +99,24 @@
       <select name="wallet" required>
         <option value="">Wallet tanlang</option>
         {% for wallet in wallets %}
-          <option value="{{ wallet.id }}">{{ wallet.name }}</option>
+          <option value="{{ wallet.id }}">{{ wallet.type }}</option>
         {% endfor %}
       </select>
     </div>
 
     <!-- TYPE (hidden, backend uchun) -->
-    <div class="form-group" style="display:none;">
-      <select name="type" id="typeSelect" required>
-        <option value="income">income</option>
-        <option value="outcome">outcome</option>
-      </select>
-    </div>
+    <input type="hidden" name="type" id="typeInput" value="income">
 
     <!-- Category -->
     <div class="form-group">
       <label>Category</label>
       <select name="category" id="categorySelect" required>
+        <option value="">Kategoriya tanlang</option>
         {% for category in categories %}
           <option value="{{ category.id }}" data-type="{{ category.type }}">
             {{ category.name }}
           </option>
         {% endfor %}
-      </select>
-    </div>
-
-    <!-- Come Type -->
-    <div class="form-group">
-      <label>To‘lov turi</label>
-      <select name="come_type" required>
-        <option value="">Tanlang</option>
-        <option value="cash">CASH</option>
-        <option value="uzcard">UzCard</option>
-        <option value="humo">HUMO</option>
-        <option value="visa">VISA</option>
       </select>
     </div>
 
@@ -148,43 +132,58 @@
       <textarea name="desc" placeholder="Izoh (ixtiyoriy)"></textarea>
     </div>
 
-    <button type="submit" class="submit-btn income-btn">
+    <button type="submit" class="submit-btn income-btn" id="submitBtn">
       Saqlash
     </button>
   </form>
 </div>
 
 <script>
-  const typeSelect = document.getElementById("typeSelect");
+  const typeInput = document.getElementById("typeInput");
   const categorySelect = document.getElementById("categorySelect");
-  const categoryOptions = categorySelect.querySelectorAll("option[data-type]");
-
   const incomeBtn = document.getElementById("incomeBtn");
   const outcomeBtn = document.getElementById("outcomeBtn");
+  const submitBtn = document.getElementById("submitBtn");
 
   function setType(type) {
-    typeSelect.value = type;
+    typeInput.value = type;
+
+    // Reset category selection
     categorySelect.value = "";
 
-    categoryOptions.forEach(option => {
-      option.style.display =
-        option.dataset.type === type ? "block" : "none";
+    // Filter categories
+    const options = categorySelect.querySelectorAll("option[data-type]");
+    options.forEach(option => {
+      if (option.dataset.type === type) {
+        option.style.display = "block";
+        option.disabled = false;
+      } else {
+        option.style.display = "none";
+        option.disabled = true;
+      }
     });
+
+    // Update button styles
+    if (type === "income") {
+      incomeBtn.classList.remove("inactive");
+      outcomeBtn.classList.add("inactive");
+      submitBtn.className = "submit-btn income-btn";
+    } else {
+      outcomeBtn.classList.remove("inactive");
+      incomeBtn.classList.add("inactive");
+      submitBtn.className = "submit-btn outcome-btn";
+    }
   }
 
   incomeBtn.addEventListener("click", () => {
     setType("income");
-    incomeBtn.classList.remove("inactive");
-    outcomeBtn.classList.add("inactive");
   });
 
   outcomeBtn.addEventListener("click", () => {
     setType("outcome");
-    outcomeBtn.classList.remove("inactive");
-    incomeBtn.classList.add("inactive");
   });
 
-  // 🔥 DEFAULT: INCOME
+  // Initialize on page load
   document.addEventListener("DOMContentLoaded", () => {
     setType("income");
   });

@@ -52,10 +52,9 @@ class IncomeOutcome(models.Model):
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE, related_name='users')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='categories')
     type = models.CharField(max_length=15, choices=TYPES)
-    come_type = models.CharField(max_length=30, choices=CHOICES)
     amount = models.DecimalField(max_digits=15,decimal_places=2)
     desc = models.TextField(blank=True ,null=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     def __str__(self):
-        return f"{self.wallet.name} - {self.type}"
-
+        return f"{self.wallet.type} - {self.type}"

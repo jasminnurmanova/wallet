@@ -1,28 +1,123 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
+<style>
+    .signup-wrapper {
+        min-height: 80vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 200px;
+    }
 
-            <h2 class="mb-4 text-center">Sign up</h2>
+    .signup-card {
+        background: #fff;
+        padding: 30px;
+        width: 100%;
+        max-width: 450px;
+        border-radius: 10px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
 
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
+    .signup-card h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
 
-                <div class="d-grid mt-3">
-                    <button class="btn btn-primary" type="submit">
-                        Signup
-                    </button>
-                </div>
+    .form-group {
+        margin-bottom: 15px;
+    }
 
-                <div class="text-center mt-3">
-                    <span>Already have an account?</span>
-                    <a href="{% url 'login' %}">Login here</a>
-                </div>
-            </form>
+    .form-group label {
+        font-size: 14px;
+        margin-bottom: 5px;
+        display: block;
+    }
 
+    .form-group input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        outline: none;
+    }
+
+    .form-group input:focus {
+        border-color: #0d6efd;
+    }
+
+    .signup-btn {
+        width: 100%;
+        padding: 10px;
+        background: #0d6efd !important;
+        color: white !important;
+        border: none;
+        border-radius: 6px;
+        font-size: 15px;
+        cursor: pointer;
+    }
+
+    .signup-btn:hover {
+        background: #0b5ed7;
+    }
+
+    .text-center {
+        text-align: center;
+        margin-top: 15px;
+        font-size: 14px;
+    }
+
+    .error {
+        color: red;
+        font-size: 13px;
+    }
+</style>
+
+<div class="signup-wrapper">
+    <div class="signup-card">
+        <h2>Sign Up</h2>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label>Username</label>
+                {{ form.username }}
+                {{ form.username.errors }}
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                {{ form.email }}
+                {{ form.email.errors }}
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                {{ form.password1 }}
+                {{ form.password1.errors }}
+            </div>
+
+            <div class="form-group">
+                <label>Confirm Password</label>
+                {{ form.password2 }}
+                {{ form.password2.errors }}
+            </div>
+
+            {% if form.avatar %}
+            <div class="form-group">
+                <label>Avatar</label>
+                {{ form.avatar }}
+            </div>
+            {% endif %}
+
+            <button type="submit" class="signup-btn">Signup</button>
+        </form>
+
+        <div class="text-center">
+            Already have an account?
+            <a href="{% url 'login' %}">Login here</a>
         </div>
     </div>
 </div>
-{% endblock content %}
+{% endblock %}

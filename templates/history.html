@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="max-w-5xl mx-auto px-4 py-8" style="margin-top: 150px">
+
+  <!-- HEADER -->
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+    <h2 class="text-2xl font-bold text-bgray-900 dark:text-white">
+      Transaction History
+    </h2>
+
+    <!-- FILTER BUTTONS -->
+    <div class="flex gap-2 mt-4 md:mt-0">
+      <a href="?period=day"
+         class="px-4 py-2 rounded-lg text-sm font-semibold
+                {% if period == 'day' %}
+                  bg-success-500 text-white
+                {% else %}
+                  bg-bgray-100 text-bgray-700 hover:bg-bgray-200
+                {% endif %}">
+        Daily
+      </a>
+
+      <a href="?period=week"
+         class="px-4 py-2 rounded-lg text-sm font-semibold
+                {% if period == 'week' %}
+                  bg-success-500 text-white
+                {% else %}
+                  bg-bgray-100 text-bgray-700 hover:bg-bgray-200
+                {% endif %}">
+        Weekly
+      </a>
+
+      <a href="?period=month"
+         class="px-4 py-2 rounded-lg text-sm font-semibold
+                {% if period == 'month' %}
+                  bg-success-500 text-white
+                {% else %}
+                  bg-bgray-100 text-bgray-700 hover:bg-bgray-200
+                {% endif %}">
+        Monthly
+      </a>
+    </div>
+  </div>
+
+  <!-- LIST -->
+  <div class="bg-white dark:bg-darkblack-600 rounded-xl shadow overflow-hidden">
+
+    {% if histories %}
+      <ul class="divide-y divide-bgray-200 dark:divide-darkblack-400">
+
+        {% for tx in histories %}
+        <li class="flex items-center justify-between px-6 py-4
+                   hover:bg-bgray-50 dark:hover:bg-darkblack-500 transition">
+
+          <!-- LEFT -->
+          <div class="flex items-center gap-4">
+            <div
+              class="h-10 w-10 rounded-full flex items-center justify-center
+                     {% if tx.type == 'income' %}
+                       bg-success-100 text-success-600
+                     {% else %}
+                       bg-red-100 text-red-600
+                     {% endif %}">
+              {% if tx.type == 'income' %}+{% else %}-{% endif %}
+            </div>
+
+            <div>
+              <p class="font-semibold text-bgray-900 dark:text-white">
+                {{ tx.category.name }}
+              </p>
+              <p class="text-sm text-bgray-500">
+                {{ tx.created_at|date:"d M Y, H:i" }}
+              </p>
+              {% if tx.desc %}
+                <p class="text-xs text-bgray-400 mt-1">
+                  {{ tx.desc }}
+                </p>
+              {% endif %}
+            </div>
+          </div>
+
+          <!-- RIGHT -->
+          <div class="text-right">
+            <p class="text-lg font-bold
+              {% if tx.type == 'income' %}
+                text-success-600
+              {% else %}
+                text-red-600
+              {% endif %}">
+              {% if tx.type == 'income' %}+{% else %}-{% endif %}
+              {{ tx.amount }} so'm
+            </p>
+            <p class="text-sm text-bgray-500">
+              {{ tx.wallet.type|upper }}
+            </p>
+          </div>
+
+        </li>
+        {% endfor %}
+
+      </ul>
+    {% else %}
+      <div class="text-center py-10 text-bgray-500">
+        No transactions found
+      </div>
+    {% endif %}
+
+  </div>
+
+</div>
+
+{% endblock %}

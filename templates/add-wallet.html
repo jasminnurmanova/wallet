@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="min-h-[80vh] flex items-center justify-center px-4" style="margin-top: 200px">
+  <div class="w-full max-w-lg bg-white dark:bg-darkblack-600 rounded-2xl shadow-xl p-8">
+
+    <!-- TITLE -->
+    <h2 class="text-2xl font-bold text-bgray-900 dark:text-white mb-6 text-center">
+      Add New Wallet
+    </h2>
+
+    <form method="post" class="space-y-5">
+      {% csrf_token %}
+
+      <!-- Wallet Type -->
+      <div>
+        <label class="block mb-2 text-sm font-semibold text-bgray-700 dark:text-bgray-50">
+          Wallet Type
+        </label>
+        <select
+          name="type"
+          id="walletTypeSelect"
+          required
+          class="w-full rounded-lg border border-bgray-200 px-4 py-3
+                 focus:border-success-300 focus:ring-success-300
+                 dark:border-darkblack-400 dark:bg-darkblack-500 dark:text-white"
+        >
+          <option value="cash">Cash</option>
+          <option value="uzcard">UzCard</option>
+          <option value="humo">Humo</option>
+          <option value="visa">Visa</option>
+        </select>
+      </div>
+
+      <!-- Balance -->
+      <div>
+        <label class="block mb-2 text-sm font-semibold text-bgray-700 dark:text-bgray-50">
+          Initial Balance
+        </label>
+        <input
+          type="number"
+          step="0.01"
+          name="balance"
+          required
+          placeholder="e.g. 1,000,000"
+          class="w-full rounded-lg border border-bgray-200 px-4 py-3
+                 focus:border-success-300 focus:ring-success-300
+                 dark:border-darkblack-400 dark:bg-darkblack-500 dark:text-white"
+        />
+      </div>
+
+      <!-- Card Number -->
+      <div id="cardNumberField">
+        <label class="block mb-2 text-sm font-semibold text-bgray-700 dark:text-bgray-50">
+          Card Number <span class="text-xs opacity-60">(optional)</span>
+        </label>
+        <input
+          type="text"
+          name="card_numbers"
+          placeholder="**** **** **** 1234"
+          class="w-full rounded-lg border border-bgray-200 px-4 py-3
+                 focus:border-success-300 focus:ring-success-300
+                 dark:border-darkblack-400 dark:bg-darkblack-500 dark:text-white"
+        />
+      </div>
+
+      <!-- Expire Date -->
+      <div id="expireDateField">
+        <label class="block mb-2 text-sm font-semibold text-bgray-700 dark:text-bgray-50">
+          Expire Date <span class="text-xs opacity-60">(MM/YY)</span>
+        </label>
+        <input
+          type="text"
+          name="expire_date"
+          placeholder="08/27"
+          class="w-full rounded-lg border border-bgray-200 px-4 py-3
+                 focus:border-success-300 focus:ring-success-300
+                 dark:border-darkblack-400 dark:bg-darkblack-500 dark:text-white"
+        />
+      </div>
+
+      <!-- ACTIONS -->
+      <div class="flex items-center justify-between pt-4">
+        <a
+          href="{% url 'main:home' %}"
+          class="text-sm font-semibold text-bgray-500 hover:text-bgray-700"
+        >
+          Cancel
+        </a>
+
+        <button
+          type="submit"
+          class="px-6 py-3 rounded-lg bg-success-500 text-white font-semibold
+                 hover:bg-success-600 transition"
+        >
+          Save Wallet
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<!-- JS -->
+<script>
+  const typeSelect = document.getElementById("walletTypeSelect");
+  const cardNumberField = document.getElementById("cardNumberField");
+  const expireDateField = document.getElementById("expireDateField");
+
+  function toggleCardFields() {
+    if (typeSelect.value === "cash") {
+      cardNumberField.classList.add("hidden");
+      expireDateField.classList.add("hidden");
+    } else {
+      cardNumberField.classList.remove("hidden");
+      expireDateField.classList.remove("hidden");
+    }
+  }
+
+  typeSelect.addEventListener("change", toggleCardFields);
+  document.addEventListener("DOMContentLoaded", toggleCardFields);
+</script>
+
+{% endblock %}
