@@ -1,4 +1,3 @@
-from lib2to3.fixes.fix_input import context
 from multiprocessing.managers import Value
 from django.core.exceptions import ValidationError
 from django.db.models import Sum
@@ -14,23 +13,22 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 
 
-
 @login_required
 def home(request):
     wallets = Wallet.objects.filter(owner=request.user)
-    histories = IncomeOutcome.objects.filter(owner=request.user)
+    histories = IncomeOutcome.objects.filter(author=request.user)
 
     total = sum(wallet.balance for wallet in wallets)
 
     income = (
         IncomeOutcome.objects
-        .filter(owner=request.user, type='income')
+        .filter(author=request.user, type='income')
         .aggregate(total=Sum('amount'))['total'] or 0
     )
 
     outcome = (
         IncomeOutcome.objects
-        .filter(owner=request.user, type='outcome')
+        .filter(author=request.user, type='outcome')
         .aggregate(total=Sum('amount'))['total'] or 0
     )
 
@@ -54,7 +52,6 @@ def home(request):
     })
 
 
-
 class TransactionView(LoginRequiredMixin, View):
     def get(self, request):
         wallet = Wallet.objects.filter(owner=request.user)
@@ -63,7 +60,7 @@ class TransactionView(LoginRequiredMixin, View):
             'wallet': wallet,
             'categories': categories,
         }
-        return render(request, 'transaction_add.html', context)
+        return render(request, 'transactions.html', context)
 
     def post(self, request):
         account_id = request.POST.get("account")
