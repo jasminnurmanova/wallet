@@ -1,60 +1,87 @@
 from django.db import models
 from user.models import CustomUser
-# Create your models here.
 
-# --------category --------
+
 class Category(models.Model):
-    TYPES = (
-        ("income", "INCOME"),
-        ("outcome", "OUTCOME")
+    TYPE_CHOICES = (
+        ("income", "Income"),
+        ("outcome", "Outcome"),
     )
-    name = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='category/', null=True, blank=True)
-    type = models.CharField(max_length=15, choices=TYPES)
+
+    image = models.ImageField(upload_to="category/", null=True, blank=True)
+    type = models.CharField(max_length=15, choices=TYPE_CHOICES)
 
     def __str__(self):
-        return self.name
-
+        return self.get_type_display()
 
 
 class Wallet(models.Model):
-    CHOICES = (
-        ("cash", "CASH"),
-        ("uzcard", "UzCard"),
-        ("humo", "HUMO"),
-        ("visa", "VISA")
+    TYPE_CHOICES = (
+        ("cash", "Cash"),
+        ("bank_card", "Bank Card"),
+        ("visa", "Visa"),
     )
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='wallets')
-    # name = models.CharField(max_length=255, null=True)
+
+    CURRENCY_CHOICES = (
+        ("UZS", "UZS"),
+        ("USD", "USD"),
+    )
+
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="wallets")
+    name = models.CharField(max_length=255, null=True, blank=True)
     balance = models.DecimalField(max_digits=15, decimal_places=2)
-    type = models.CharField(max_length=50, choices=CHOICES, default='CASH')
-    card_numbers = models.IntegerField(null=True, blank=True)
+    type = models.CharField(
+        max_length=20,
+        choices=TYPE_CHOICES,
+        default="cash"
+    )
     expire_date = models.CharField(max_length=10, null=True, blank=True)
     image = models.ImageField(upload_to="wallets/", null=True, blank=True)
 
     def __str__(self):
-        return self.type
+        return self.name or self.get_type_display()
 
-# --------- money--------------
 
 class IncomeOutcome(models.Model):
-    TYPES = (
-        ("income", "INCOME"),
-        ("outcome", "OUTCOME")
+    TYPE_CHOICES = (
+        ("income", "Income"),
+        ("outcome", "Outcome"),
     )
-    CHOICES = (
-        ("cash", "CASH"),
+
+    CARD_CHOICES = (
+        ("cash", "Cash"),
         ("uzcard", "UzCard"),
-        ("humo", "HUMO"),
-        ("visa", "VISA")
+        ("humo", "Humo"),
+        ("visa", "Visa"),
     )
-    wallet = models.ForeignKey(Wallet, on_delete=models.CASCADE, related_name='wallets')
-    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE, related_name='users')
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='categories')
-    type = models.CharField(max_length=15, choices=TYPES)
-    amount = models.DecimalField(max_digits=15,decimal_places=2)
-    desc = models.TextField(blank=True ,null=True)
-    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+
+    wallet = models.ForeignKey(
+        Wallet,
+        on_delete=models.CASCADE,
+        related_name="transactions"
+    )
+    user = models.ForeignKey(
+        CustomUser,
+        on_delete=models.CASCADE,
+        related_name="transactions"
+    )
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.CASCADE,
+        related_name="transactions"
+    )
+
+    type = models.CharField(
+        max_length=15,
+        choices=TYPE_CHOICES
+    )
+    card_type = models.CharField(
+        max_length=10,
+        choices=CARD_CHOICES
+    )
+    amount = models.DecimalField(max_digits=15, decimal_places=2)
+    desc = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.wallet.type} - {self.type}"
+        return f"{self.wallet} | {self.type} | {self.amount}"
