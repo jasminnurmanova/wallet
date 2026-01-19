@@ -1,4 +1,6 @@
 from lib2to3.fixes.fix_input import context
+from multiprocessing.managers import Value
+from django.core.exceptions import ValidationError
 from django.db.models import Sum
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
@@ -8,24 +10,27 @@ from django.db.models import Sum, Case, When, F, DecimalField
 from django.utils import timezone
 from decimal import Decimal
 from datetime import timedelta
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views import View
+
 
 
 @login_required
 def home(request):
-    wallets = Wallet.objects.filter(user=request.user)
-    histories = IncomeOutcome.objects.filter(user=request.user)
+    wallets = Wallet.objects.filter(owner=request.user)
+    histories = IncomeOutcome.objects.filter(owner=request.user)
 
     total = sum(wallet.balance for wallet in wallets)
 
     income = (
         IncomeOutcome.objects
-        .filter(user=request.user, type='income')
+        .filter(owner=request.user, type='income')
         .aggregate(total=Sum('amount'))['total'] or 0
     )
 
     outcome = (
         IncomeOutcome.objects
-        .filter(user=request.user, type='outcome')
+        .filter(owner=request.user, type='outcome')
         .aggregate(total=Sum('amount'))['total'] or 0
     )
 
@@ -49,129 +54,149 @@ def home(request):
     })
 
 
-@login_required
-def transaction(request):
-    user = request.user
-    wallets = Wallet.objects.filter(user=user)
-    categories = Category.objects.all()
 
-    if request.method == "POST":
-        wallet_id = request.POST.get("wallet")
+class TransactionView(LoginRequiredMixin, View):
+    def get(self, request):
+        wallet = Wallet.objects.filter(owner=request.user)
+        categories = Category.objects.filter(type_p='expense')
+        context = {
+            'wallet': wallet,
+            'categories': categories,
+        }
+        return render(request, 'transaction_add.html', context)
+
+    def post(self, request):
+        account_id = request.POST.get("account")
         category_id = request.POST.get("category")
-        trans_type = request.POST.get("type")
-        amount = request.POST.get("amount")
-        desc = request.POST.get("desc")
-        currency = request.POST.get("currency")
+        amount_raw = request.POST.get("amount")
+        comment = request.POST.get("comment", "").strip()
+        type_p = 'expense'
 
         try:
-            amount = Decimal(amount)
+            wallet = Wallet.objects.get(id=account_id, owner=request.user)
+        except Wallet.DoesNotExist:
+            raise ValidationError(request, "Hisob topilmadi")
+
+        try:
+            category = Category.objects.get(id=category_id, type_p=type_p)
+        except Category.DoesNotExist:
+            raise ValidationError(request, "Kategoriya notogri")
+
+        try:
+            amount = Decimal(amount_raw)
             if amount <= 0:
-                messages.error(request, "Amount must be greater than 0")
-                return redirect("main:transaction")
+                raise InvalidOperation
         except:
-            messages.error(request, "Invalid amount")
-            return redirect("main:transaction")
+            raise ValidationError(request, "Summani togri kiriting")
 
-        wallet = get_object_or_404(Wallet, id=wallet_id, user=user)
-        category = get_object_or_404(Category, id=category_id)
-
-        if trans_type == "outcome" and amount > wallet.balance:
-            messages.error(request, "Not enough balance")
-            return redirect("main:transaction")
-
-        IncomeOutcome.objects.create(
-            wallet=wallet,
-            user=user,
-            category=category,
-            type=trans_type,
-            amount=amount,
-            desc=desc,
-            currency=currency
-        )
-
-        if trans_type == "income":
-            wallet.balance += amount
-        else:
+        if wallet.balance > amount:
             wallet.balance -= amount
+            wallet.save()
+            Transaction.objects.create(
+                author=request.user,
+                account=account,
+                category=category,
+                amount=amount,
+                type=type_p,
+                comment=comment,
+            )
+            wallet.save()
+        else:
+            raise ValidationError(request, "Balansingiz yetarli emas")
 
-        wallet.save()
-
-        messages.success(request, "Transaction saved successfully")
-        return redirect("main:home")
-
-    context = {
-        "wallets": wallets,
-        "categories": categories,
-    }
-    return render(request, "transactions.html", context)
+        return redirect(reverse("finance:transaction"))
 
 
-@login_required
-def create_wallet(request):
-    if request.method == "POST":
-        name = request.POST.get("name")
-        wallet_type = request.POST.get("type")
-        currency = request.POST.get("currency")
+class AddWallet(LoginRequiredMixin, View):
+    def get(self, request):
+        return render(request, 'add-wallet.html')
+
+    def post(self, request):
+        title = request.POST.get("title")
+        type_p = request.POST.get("type")
         balance = request.POST.get("balance")
-
-        try:
-            balance = Decimal(balance)
-            if balance < 0:
-                messages.error(request, "Balance cannot be negative")
-                return redirect("create_wallet")
-        except:
-            messages.error(request, "Invalid balance")
-            return redirect("create_wallet")
-
-        if wallet_type == "visa" and currency == "UZS":
-            messages.error(request, "VISA card cannot be in UZS currency")
-            return redirect("create_wallet")
+        if not title:
+            return render(request, "add-wallet.html", {
+                "error": "Title is important"
+            })
 
         Wallet.objects.create(
-            user=request.user,
-            name=name,
-            type=wallet_type,
-            currency=currency,
+            owner=request.user,
+            title=title,
+            type=type_p,
             balance=balance
         )
+        Transaction.objects.create(
+            author=request.user,
+            wallet=Wallet.objects.last(),
+            category=Category.objects.filter(title__iexact='other').first(),
+            amount=balance,
+            type='income',
+            comment="Added",
+        )
 
-        return redirect("main:home")
-
-    return render(request, "wallet_create.html")
+        return redirect(reverse("main:wallet"))
 
 
-def calender(request):
-    return render(request,'calender.html')
+# class History(LoginRequiredMixin, View):
+#     def get(self, request):
+#         qs = (Transaction.objects.filter(author=request.user).select_related("category", "account").order_by("-created"))
+#
+#         q = (request.GET.get("q") or "").strip()
+#         tx_type = (request.GET.get("type") or "all").strip()
+#         cat = (request.GET.get("cat") or "all").strip()
+#         date_from = (request.GET.get("from") or "").strip()
+#         date_to = (request.GET.get("to") or "").strip()
+#
+#         if q:
+#             qs = qs.filter(
+#                 Q(comment__icontains=q) |
+#                 Q(category__title__icontains=q) |
+#                 Q(account__title__icontains=q) |
+#                 Q(amount__icontains=q)
+#             )
+#
+#         if tx_type in ("income", "expense"):
+#             qs = qs.filter(type=tx_type)
+#
+#         if cat != "all" and cat.isdigit():
+#             qs = qs.filter(category_id=int(cat))
+#
+#         if date_from:
+#             qs = qs.filter(created__date__gte=date_from)
+#
+#         if date_to:
+#             qs = qs.filter(created__date__lte=date_to)
+#
+#         profit = (qs.aggregate(
+#             income=Sum("amount", filter=Q(type="income")),
+#             expense=Sum("amount", filter=Q(type="expense")),
+#         ) or {})
+#
+#         income_sum = profit.get("income") or 0
+#         expense_sum = profit.get("expense") or 0
+#         profit_value = income_sum - expense_sum
+#
+#         categories = Category.objects.all().order_by("title")
+#
+#         context = {
+#             "operations": qs,
+#             "categories": categories,
+#             "profit": profit_value,
+#             "f_q": q,
+#             "f_type": tx_type,
+#             "f_cat": cat,
+#             "f_from": date_from,
+#             "f_to": date_to,
+#         }
+#         return render(request, "transactions.html", context)
+#
+#
 
-@login_required
-def wallet(request):
-    wallets = Wallet.objects.filter(user=request.user)
-    total = 0
-    for i in wallets:
-        total += i.balance
-    return render(request,'my-wallet.html', context={
-        "total": total,
-        "wallets": wallets
-    })
-
-@login_required
-def history(request):
-    period = request.GET.get("period", "week")
-    now = timezone.now()
-
-    if period == "day":
-        start_date = now - timedelta(days=1)
-    elif period == "month":
-        start_date = now.replace(day=1)
-    else:
-        start_date = now - timedelta(days=7)
-
-    histories = (
-        IncomeOutcome.objects
-        .filter(user=request.user, created_at__gte=start_date)
-        .select_related("wallet", "category")
-        .order_by("-created_at")
-    )
-    return render(request,'history.html', context={
-        "histories":histories
-    })
+class WalletView(LoginRequiredMixin, View):
+    def get(self, request):
+        wallet = Wallet.objects.filter(owner=request.user)
+        context = {
+            'wallet': wallet,
+        }
+        return render(request, 'my-wallet.html', context)
