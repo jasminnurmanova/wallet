@@ -235,7 +235,7 @@
                     </a>
                   </li>
                   <li class="item py-[11px] text-bgray-900 dark:text-white">
-                    <a href="#">
+                    <a href="{% url 'main:history' %}">
                       <div class="flex items-center justify-between">
                         <div class="flex items-center space-x-2.5">
                           <span class="item-ico">
@@ -282,14 +282,6 @@
                   </li>
                 </ul>
               </div>
-            </div>
-            <div class="copy-write-text">
-              <p class="text-sm text-[#969BA0]">© 2023 All Rights Reserved</p>
-              <p class="text-sm font-medium text-bgray-700">
-                Made with ❤️ by Jasmin Nurmanova
-              </p>
-            </div>
-          </div>
         </aside>
         <div
           style="z-index: 25"
@@ -602,7 +594,7 @@
                         </a>
                       </li>
                       <li class="item px-[43px] py-[11px]">
-                        <a href="history.html">
+                        <a href="{% url 'main:history' %}">
                           <span class="item-ico">
                             <svg
                               width="18"

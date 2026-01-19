@@ -2,93 +2,103 @@
 {% load static %}
 {% block content %}
 
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Wallets</title>
+  <title>Add Wallet</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body class="bg-slate-100 min-h-screen">
-  <div class="max-w-7xl mx-auto px-8 py-12">
-    <h1 class="text-3xl font-black mb-10 text-slate-900">
-      My Wallets
-    </h1>
+  <div class="max-w-4xl mx-auto px-8 py-12">
 
-    <!-- WALLET GRID -->
-    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-
-      <!-- WALLET CARDS -->
-      {% for w in wallet %}
-      <div class="relative group cursor-pointer">
-        <div class="absolute inset-0 bg-gradient-to-br from-[#609988] to-[#4d7a6d] rounded-[2.5rem]
-                    transform group-hover:scale-[1.02] group-hover:rotate-1 transition-all shadow-xl shadow-teal-900/20"></div>
-
-        <div class="relative p-8 text-white h-60 flex flex-col justify-between">
-          <div class="flex justify-between items-start">
-            <div class="space-y-1">
-              <p class="text-[10px] font-black uppercase tracking-[0.2em] opacity-60">
-                Wallet
-              </p>
-              <h3 class="text-xl font-bold">
-                {{ w.type }}
-              </h3>
-            </div>
-            <i data-lucide="credit-card" class="w-6 h-6 opacity-40"></i>
-          </div>
-
-          <div>
-            <p class="text-[10px] font-black uppercase tracking-[0.2em] opacity-40 mb-1">
-              Balance
-            </p>
-            <p class="text-2xl font-black">
-              {{ w.balance|floatformat:0 }} <span class="text-xs font-normal">UZS</span>
-            </p>
-          </div>
-
-          <div class="flex justify-between items-end">
-            <p class="font-mono text-sm tracking-widest opacity-60">
-              {{ w.card_numbers|default:"•••• •••• •••• ••••" }}
-            </p>
-            {% if w.is_main %}
-            <span class="px-3 py-1 bg-white/20 rounded-lg text-[10px] font-black uppercase tracking-widest">
-              Main
-            </span>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-      {% empty %}
-      <div class="col-span-full text-center py-12">
-        <p class="text-slate-400 text-lg">No wallets yet. Add your first wallet!</p>
-      </div>
-      {% endfor %}
-
-      <!-- ADD NEW WALLET -->
-      <a href="{% url 'main:add_wallet' %}" class="block">
-        <div class="p-8 border-dashed border-2 rounded-[2.5rem] bg-slate-50/50
-                    flex flex-col items-center justify-center text-center gap-4 h-60
-                    group cursor-pointer hover:bg-white hover:border-[#609988] transition-all">
-          <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center
-                      text-slate-300 group-hover:text-[#609988] shadow-sm transition-colors">
-            <i data-lucide="plus-circle" class="w-8 h-8"></i>
-          </div>
-
-          <div>
-            <p class="font-black text-slate-800">New Wallet</p>
-            <p class="text-xs text-slate-400 mt-1">
-              Add cash or <br> other bank card
-            </p>
-          </div>
-        </div>
+    <!-- HEADER -->
+    <div class="flex items-center justify-between mb-10">
+      <h1 class="text-3xl font-black text-slate-900">
+        Add Wallet
+      </h1>
+      <a href="{% url 'main:wallet' %}" class="text-slate-500 hover:text-slate-800">
+        ← Back
       </a>
-
     </div>
+
+    {% if error %}
+      <div class="mb-6 p-4 bg-red-50 text-red-600 rounded-xl text-sm font-semibold">
+        {{ error }}
+      </div>
+    {% endif %}
+
+    <!-- FORM -->
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+        <!-- TYPE -->
+        <div class="bg-white rounded-[2.5rem] p-8 shadow-xl">
+          <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3">
+            Wallet type
+          </p>
+
+          <select
+            name="type"
+            class="w-full px-4 py-3 rounded-xl border border-slate-300
+                   focus:outline-none focus:ring-2 focus:ring-[#609988]"
+          >
+            <option value="cash">Cash</option>
+            <option value="card">Bank card</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <!-- BALANCE -->
+        <div class="bg-white rounded-[2.5rem] p-8 shadow-xl">
+          <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3">
+            Initial balance
+          </p>
+
+          <input
+            type="number"
+            step="0.01"
+            name="balance"
+            placeholder="0.00"
+            class="w-full px-4 py-3 rounded-xl border border-slate-300
+                   focus:outline-none focus:ring-2 focus:ring-[#609988]"
+            required
+          />
+        </div>
+
+      </div>
+
+      <!-- ACTION -->
+      <div class="mt-10 flex justify-end gap-4">
+        <a
+          href="{% url 'main:wallet' %}"
+          class="px-8 py-3 rounded-xl border border-slate-300
+                 font-bold text-slate-600 hover:bg-slate-50 transition"
+        >
+          Cancel
+        </a>
+
+        <button
+          type="submit"
+          class="px-10 py-3 rounded-xl bg-[#609988] text-white
+                 font-black tracking-wide hover:bg-[#4d7a6d] transition"
+        >
+          Create Wallet
+        </button>
+      </div>
+
+    </form>
+
   </div>
 
   <script>
     lucide.createIcons();
   </script>
 </body>
+</html>
 
 {% endblock content %}

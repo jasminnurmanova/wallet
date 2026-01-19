@@ -4,7 +4,6 @@
 {% block content %}
 
 <style>
-/* ===== PAGE LAYOUT FIX ===== */
 .page-content {
   padding: 40px;
   margin-top: 80px;
@@ -12,7 +11,6 @@
   background-color: #1f2933;
 }
 
-/* ===== FORM CARD ===== */
 .form-wrapper {
   max-width: 520px;
   margin: 0 auto;
@@ -29,7 +27,6 @@
   font-weight: 600;
 }
 
-/* ===== FORM ELEMENTS ===== */
 .form-group {
   margin-bottom: 16px;
 }
@@ -48,8 +45,6 @@
   border-radius: 8px;
   border: 1px solid #d1d5db;
   outline: none;
-  background: #ffffff;
-  color: #111827;
 }
 
 .form-group textarea {
@@ -57,41 +52,21 @@
   min-height: 80px;
 }
 
-.form-group select:focus,
-.form-group input:focus,
-.form-group textarea:focus {
-  border-color: #22c55e;
-}
-
-/* ===== BUTTONS ===== */
 .submit-btn {
   width: 100%;
   padding: 12px;
-  border: none;
   border-radius: 8px;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   color: white;
+  border: none;
 }
 
-.income-btn {
-  background: #22c55e;
-}
+.income-btn { background: #22c55e; }
+.outcome-btn { background: #ef4444; }
+.inactive { opacity: 0.6; }
 
-.outcome-btn {
-  background: #ef4444;
-}
-
-.inactive {
-  opacity: 0.6;
-}
-
-.submit-btn:hover {
-  filter: brightness(0.95);
-}
-
-/* Error messages */
 .error-message {
   background: #fee2e2;
   color: #dc2626;
@@ -107,21 +82,18 @@
 
     <h2>Add Transaction</h2>
 
-    <!-- Error Messages -->
     {% if messages %}
       {% for message in messages %}
-        <div class="error-message">
-          {{ message }}
-        </div>
+        <div class="error-message">{{ message }}</div>
       {% endfor %}
     {% endif %}
 
-    <!-- INCOME / OUTCOME SWITCH -->
+    <!-- TYPE SWITCH -->
     <div style="display:flex; gap:12px; margin-bottom:20px;">
       <button type="button" id="incomeBtn" class="submit-btn income-btn inactive">
         ➕ INCOME
       </button>
-      <button type="button" id="outcomeBtn" class="submit-btn outcome-btn">
+      <button type="button" id="expenseBtn" class="submit-btn outcome-btn">
         ➖ EXPENSE
       </button>
     </div>
@@ -129,52 +101,57 @@
     <form method="POST">
       {% csrf_token %}
 
-      <!-- Hidden Type -->
       <input type="hidden" name="type" id="typeInput" value="expense">
 
-      <!-- Wallet (matches POST param 'account') -->
+      <!-- WALLET -->
       <div class="form-group">
         <label>Wallet</label>
-        <select name="account" required>
+        <select name="wallet" required>
           <option value="">Select wallet</option>
           {% for w in wallet %}
             <option value="{{ w.id }}">
-              {{ w.type }} - {{ w.balance|floatformat:0 }} UZS
+              {{ w.title }} — {{ w.balance|floatformat:0 }} UZS
             </option>
           {% endfor %}
         </select>
       </div>
 
-      <!-- Category -->
+      <!-- CATEGORY -->
       <div class="form-group">
-        <label>Category</label>
+        <label style="display:flex; justify-content:space-between; align-items:center;">
+          <span>Category</span>
+          <a href="{% url 'main:add_category' %}"
+             style="font-size:13px; color:#2563eb; font-weight:600; text-decoration:none;">
+            ➕ Add
+          </a>
+        </label>
         <select name="category" id="categorySelect" required>
           <option value="">Select category</option>
-          {% for category in categories %}
-            <option value="{{ category.id }}" data-type="{{ category.type_p }}">
-              {{ category.name|default:category.type_p }}
+          {% for c in categories %}
+            <option value="{{ c.id }}" data-type="{{ c.type_p }}">
+              {{ c.title }}
             </option>
           {% endfor %}
         </select>
       </div>
 
-      <!-- Amount -->
+      <!-- AMOUNT -->
       <div class="form-group">
         <label>Amount</label>
-        <input type="number" step="0.01" name="amount" placeholder="Example: 100000" required>
+        <input type="number" step="0.01" name="amount" required>
       </div>
 
-      <!-- Comment (optional) -->
+      <!-- COMMENT -->
       <div class="form-group">
         <label>Comment (optional)</label>
-        <textarea name="comment" placeholder="Add a note about this transaction"></textarea>
+        <textarea name="comment"></textarea>
       </div>
 
-      <button type="submit" class="submit-btn outcome-btn" id="submitBtn">
+      <button type="submit" id="submitBtn" class="submit-btn outcome-btn">
         Save Transaction
       </button>
-
     </form>
+
   </div>
 </div>
 
@@ -182,41 +159,34 @@
 const typeInput = document.getElementById("typeInput");
 const categorySelect = document.getElementById("categorySelect");
 const incomeBtn = document.getElementById("incomeBtn");
-const outcomeBtn = document.getElementById("outcomeBtn");
+const expenseBtn = document.getElementById("expenseBtn");
 const submitBtn = document.getElementById("submitBtn");
 
 function setType(type) {
   typeInput.value = type;
   categorySelect.value = "";
 
-  // Filter categories by type
-  const options = categorySelect.querySelectorAll("option[data-type]");
-  options.forEach(option => {
-    if (option.dataset.type === type) {
-      option.style.display = "block";
-      option.disabled = false;
-    } else {
-      option.style.display = "none";
-      option.disabled = true;
-    }
+  [...categorySelect.options].forEach(option => {
+    if (!option.dataset.type) return;
+    const match = option.dataset.type === type;
+    option.hidden = !match;
+    option.disabled = !match;
   });
 
-  // Update UI
   if (type === "income") {
     incomeBtn.classList.remove("inactive");
-    outcomeBtn.classList.add("inactive");
+    expenseBtn.classList.add("inactive");
     submitBtn.className = "submit-btn income-btn";
   } else {
-    outcomeBtn.classList.remove("inactive");
+    expenseBtn.classList.remove("inactive");
     incomeBtn.classList.add("inactive");
     submitBtn.className = "submit-btn outcome-btn";
   }
 }
 
-incomeBtn.addEventListener("click", () => setType("income"));
-outcomeBtn.addEventListener("click", () => setType("expense"));
+incomeBtn.onclick = () => setType("income");
+expenseBtn.onclick = () => setType("expense");
 
-// Initialize with expense (default in view)
 document.addEventListener("DOMContentLoaded", () => {
   setType("expense");
 });

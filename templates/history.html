@@ -3,91 +3,145 @@
 
 <div class="max-w-5xl mx-auto px-4 py-8" style="margin-top: 150px">
 
-  <!-- HEADER -->
-  <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-    <h2 class="text-2xl font-bold text-bgray-900 dark:text-white">
-      Transaction History
-    </h2>
+  <!-- TOP BAR: TITLE + PERIOD + FILTER CHIP -->
+  <div class="flex flex-col gap-3 mb-5">
 
-    <!-- FILTER BUTTONS -->
-    <div class="flex gap-2 mt-4 md:mt-0">
-      <a href="?period=day"
-         class="px-4 py-2 rounded-lg text-sm font-semibold
-                {% if period == 'day' %}
-                  bg-success-500 text-white
-                {% else %}
-                  bg-bgray-100 text-bgray-700 hover:bg-bgray-200
-                {% endif %}">
-        Daily
-      </a>
-
-      <a href="?period=week"
-         class="px-4 py-2 rounded-lg text-sm font-semibold
-                {% if period == 'week' %}
-                  bg-success-500 text-white
-                {% else %}
-                  bg-bgray-100 text-bgray-700 hover:bg-bgray-200
-                {% endif %}">
-        Weekly
-      </a>
-
-      <a href="?period=month"
-         class="px-4 py-2 rounded-lg text-sm font-semibold
-                {% if period == 'month' %}
-                  bg-success-500 text-white
-                {% else %}
-                  bg-bgray-100 text-bgray-700 hover:bg-bgray-200
-                {% endif %}">
-        Monthly
-      </a>
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+      <h2 class="text-2xl font-bold text-bgray-900 dark:text-white">
+        Transaction History
+      </h2>
     </div>
+
+    <!-- ✅ FILTER CHEKA (ONE LINE, WRAPS NICE) -->
+    <form method="get"
+          class="bg-white dark:bg-darkblack-600 rounded-xl shadow
+                 px-3 py-3 flex flex-wrap items-center gap-2">
+      <input type="hidden" name="period" value="{{ period }}">
+
+      <!-- Search -->
+      <input
+        type="text"
+        name="q"
+        value="{{ f_q }}"
+        placeholder="Search..."
+        class="h-10 w-full md:w-[260px] rounded-lg border border-bgray-200 px-3 text-sm
+               focus:border-success-300 focus:ring-success-300
+               dark:border-darkblack-400 dark:bg-darkblack-500 dark:text-white"
+      >
+
+      <!-- Type -->
+      <select
+        name="type"
+        class="h-10 w-full md:w-[140px] rounded-lg border border-bgray-200 px-3 text-sm
+               focus:border-success-300 focus:ring-success-300
+               dark:border-darkblack-400 dark:bg-darkblack-500 dark:text-white"
+      >
+        <option value="all" {% if f_type == "all" %}selected{% endif %}>All</option>
+        <option value="income" {% if f_type == "income" %}selected{% endif %}>Income</option>
+        <option value="expense" {% if f_type == "expense" %}selected{% endif %}>Expense</option>
+      </select>
+
+      <!-- Category -->
+      <select
+        name="cat"
+        class="h-10 w-full md:w-[200px] rounded-lg border border-bgray-200 px-3 text-sm
+               focus:border-success-300 focus:ring-success-300
+               dark:border-darkblack-400 dark:bg-darkblack-500 dark:text-white"
+      >
+        <option value="all" {% if f_cat == "all" %}selected{% endif %}>All categories</option>
+        {% for c in categories %}
+          <option value="{{ c.id }}" {% if f_cat == c.id|stringformat:"s" %}selected{% endif %}>
+            {{ c.title }}
+          </option>
+        {% endfor %}
+      </select>
+
+      <!-- From -->
+      <input
+        type="date"
+        name="from"
+        value="{{ f_from }}"
+        class="h-10 w-full md:w-[150px] rounded-lg border border-bgray-200 px-3 text-sm
+               focus:border-success-300 focus:ring-success-300
+               dark:border-darkblack-400 dark:bg-darkblack-500 dark:text-white"
+      >
+
+      <!-- To -->
+      <input
+        type="date"
+        name="to"
+        value="{{ f_to }}"
+        class="h-10 w-full md:w-[150px] rounded-lg border border-bgray-200 px-3 text-sm
+               focus:border-success-300 focus:ring-success-300
+               dark:border-darkblack-400 dark:bg-darkblack-500 dark:text-white"
+      >
+
+      <!-- Buttons + Profit (right side) -->
+      <div class="flex items-center gap-2 ml-auto">
+        <div class="hidden md:flex items-center gap-2 px-3 h-10 rounded-lg bg-bgray-50 dark:bg-darkblack-500">
+          <span class="text-sm text-bgray-500">Profit</span>
+          <span class="text-sm font-bold {% if profit >= 0 %}text-blue-600{% else %}text-orange-600{% endif %}">
+            {{ profit }} so'm
+          </span>
+        </div>
+
+        <button type="submit"
+                class="h-10 px-4 rounded-lg text-sm font-semibold bg-success-500 text-white hover:opacity-90">
+          Filter
+        </button>
+
+        <a href="?period={{ period }}"
+           class="h-10 px-4 rounded-lg text-sm font-semibold bg-bgray-100 text-bgray-700 hover:bg-bgray-200 flex items-center">
+          Clear
+        </a>
+      </div>
+
+
+      <!-- Profit (mobile) -->
+      <div class="md:hidden w-full mt-2 flex items-center justify-between px-3 h-10 rounded-lg bg-bgray-50 dark:bg-darkblack-500">
+        <span class="text-sm text-bgray-500">Profit</span>
+        <span class="text-sm font-bold {% if profit >= 0 %}text-blue-600{% else %}text-orange-600{% endif %}">
+          {{ profit }} so'm
+        </span>
+      </div>
+    </form>
+
   </div>
 
-  <!-- LIST -->
+  <!-- LIST (sening eski dizayn o'zgarishsiz) -->
   <div class="bg-white dark:bg-darkblack-600 rounded-xl shadow overflow-hidden">
-
     {% if histories %}
       <ul class="divide-y divide-bgray-200 dark:divide-darkblack-400">
-
         {% for tx in histories %}
         <li class="flex items-center justify-between px-6 py-4
                    hover:bg-bgray-50 dark:hover:bg-darkblack-500 transition">
 
-          <!-- LEFT -->
           <div class="flex items-center gap-4">
-            <div
-              class="h-10 w-10 rounded-full flex items-center justify-center
-                     {% if tx.type == 'income' %}
-                       bg-blue-100 text-blue-600
-                     {% else %}
-                       bg-orange-100 text-orange-600
-                     {% endif %}">
+            <div class="h-10 w-10 rounded-full flex items-center justify-center
+                        {% if tx.type == 'income' %}
+                          bg-blue-100 text-blue-600
+                        {% else %}
+                          bg-orange-100 text-orange-600
+                        {% endif %}">
               {% if tx.type == 'income' %}+{% else %}-{% endif %}
             </div>
 
             <div>
               <p class="font-semibold text-bgray-900 dark:text-white">
-                {{ tx.category.name }}
+                {{ tx.category.title }}
               </p>
               <p class="text-sm text-bgray-500">
-                {{ tx.created_at|date:"d M Y, H:i" }}
+                {{ tx.created|date:"d M Y, H:i" }}
               </p>
-              {% if tx.desc %}
-                <p class="text-xs text-bgray-400 mt-1">
-                  {{ tx.desc }}
-                </p>
+              {% if tx.comment %}
+                <p class="text-xs text-bgray-400 mt-1">{{ tx.comment }}</p>
               {% endif %}
             </div>
           </div>
 
-          <!-- RIGHT -->
           <div class="text-right">
             <p class="text-lg font-bold
-              {% if tx.type == 'income' %}
-                text-blue-600
-              {% else %}
-                text-orange-600
-              {% endif %}">
+              {% if tx.type == 'income' %}text-blue-600{% else %}text-orange-600{% endif %}">
               {% if tx.type == 'income' %}+{% else %}-{% endif %}
               {{ tx.amount }} so'm
             </p>
@@ -98,14 +152,10 @@
 
         </li>
         {% endfor %}
-
       </ul>
     {% else %}
-      <div class="text-center py-10 text-bgray-500">
-        No transactions found
-      </div>
+      <div class="text-center py-10 text-bgray-500">No transactions found</div>
     {% endif %}
-
   </div>
 
 </div>

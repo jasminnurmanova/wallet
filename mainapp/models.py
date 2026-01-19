@@ -48,4 +48,4 @@ class IncomeOutcome(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.author.username} - {self.account.title} - {self.amount}"
+        return f"{self.author.username} - {self.wallet.title} - {self.amount}"

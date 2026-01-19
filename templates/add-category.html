@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<style>
+.page-content {
+  padding: 40px;
+  margin-top: 80px;
+  min-height: calc(100vh - 80px);
+  background-color: #1f2933;
+}
+
+.form-wrapper {
+  max-width: 420px;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  color: #111827;
+}
+
+.form-wrapper h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  color: white;
+  border: none;
+  background: #2563eb;
+}
+
+.submit-btn:hover {
+  filter: brightness(0.95);
+}
+
+.error-message {
+  background: #fee2e2;
+  color: #dc2626;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.success-message {
+  background: #dcfce7;
+  color: #166534;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+</style>
+
+<div class="page-content">
+  <div class="form-wrapper">
+
+    <h2>Add Category</h2>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="{% if message.tags == 'error' %}error-message{% else %}success-message{% endif %}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="POST">
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label>Category title</label>
+        <input type="text" name="title" placeholder="e.g. Food, Salary" required>
+      </div>
+
+      <div class="form-group">
+        <label>Category type</label>
+        <select name="type" required>
+          <option value="">Select type</option>
+          <option value="income">Kirim (Income)</option>
+          <option value="expense">Chiqim (Expense)</option>
+        </select>
+      </div>
+
+      <button type="submit" class="submit-btn">
+        Add Category
+      </button>
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}
