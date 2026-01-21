@@ -1,0 +1,310 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="w-full px-6 pb-6 pt-[100px] sm:pt-[156px] xl:px-12 xl:pb-12">
+  <!-- Page Header with Balance Overview -->
+  <div class="mb-8">
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <h1 class="text-3xl font-bold text-bgray-900 dark:text-white mb-2">My Wallets</h1>
+        <p class="text-bgray-600 dark:text-bgray-400">Manage your digital wallets and track balances</p>
+      </div>
+      <a href="{% url 'main:add_wallet' %}">
+      <button 
+        class="group relative overflow-hidden rounded-xl bg-success-300 px-6 py-3 text-white font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-success-300/50 hover:-translate-y-0.5"
+      >
+        <span class="relative z-10 flex items-center gap-2">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 4V16M4 10H16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          Add Wallet
+        </span>
+        <div class="absolute inset-0 bg-gradient-to-r from-success-400 to-success-300 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+      </button></a>
+    </div>
+
+    <!-- Total Balance Card -->
+    <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-success-300 via-success-400 to-success-500 p-8 shadow-xl">
+      <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl transform translate-x-20 -translate-y-20"></div>
+      <div class="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full blur-2xl transform -translate-x-10 translate-y-10"></div>
+      
+      <div class="relative z-10">
+        <div class="flex items-center justify-between mb-6">
+
+          <div class="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 4C20 1.79086 18.2091 0 16 0H4C1.79086 0 0 1.79086 0 4V14C0 16.2091 1.79086 18 4 18H16C18.2091 18 20 16.2091 20 14V4Z" fill="white" fill-opacity="0.3"/>
+              <path d="M6 9C6 7.34315 4.65685 6 3 6H0V12H3C4.65685 12 6 10.6569 6 9Z" fill="white"/>
+            </svg>
+          </div>
+        </div>
+        
+        <div class="flex gap-6">
+          <div>
+            <p class="text-white/80 text-sm font-medium mb-1">Active Wallets</p>
+            <h2 class="text-4xl font-bold text-white">
+              <span>{{ wallets.count }}</span>
+            </h2>
+          </div>
+          <div>
+            <p class="text-white/80 text-sm font-medium mb-1">Total Balance</p>
+            <h2 class="text-4xl font-bold text-white">
+              $<span id="totalBalance">0.00</span>
+            </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Wallets Grid -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+    {% for wallet in wallets %}
+    <div class="wallet-card group relative overflow-hidden rounded-2xl bg-white dark:bg-darkblack-600 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+         data-balance="{{ wallet.balance }}">
+      <!-- Card Header with Type Icon -->
+      <div class="absolute top-0 right-0 w-32 h-32 opacity-5 dark:opacity-10 transform translate-x-8 -translate-y-8">
+        {% if wallet.type == 'cash' %}
+        <svg viewBox="0 0 24 24" fill="currentColor" class="text-success-300">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.31-8.86c-1.77-.45-2.34-.94-2.34-1.67 0-.84.79-1.43 2.1-1.43 1.38 0 1.9.66 1.94 1.64h1.71c-.05-1.34-.87-2.57-2.49-2.97V5H10.9v1.69c-1.51.32-2.72 1.3-2.72 2.81 0 1.79 1.49 2.69 3.66 3.21 1.95.46 2.34 1.15 2.34 1.87 0 .53-.39 1.39-2.1 1.39-1.6 0-2.23-.72-2.32-1.64H8.04c.1 1.7 1.36 2.66 2.86 2.97V19h2.34v-1.67c1.52-.29 2.72-1.16 2.73-2.77-.01-2.2-1.9-2.96-3.66-3.42z"/>
+        </svg>
+        {% elif wallet.type == 'card' %}
+        <svg viewBox="0 0 24 24" fill="currentColor" class="text-success-300">
+          <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+        </svg>
+        {% else %}
+        <svg viewBox="0 0 24 24" fill="currentColor" class="text-success-300">
+          <path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+        </svg>
+        {% endif %}
+      </div>
+
+      <div class="p-6">
+        <!-- Type Badge -->
+        <div class="flex items-center justify-between mb-4">
+          <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold
+                       {% if wallet.type == 'cash' %}
+                       bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300
+                       {% elif wallet.type == 'card' %}
+                       bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300
+                       {% else %}
+                       bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300
+                       {% endif %}">
+            <span class="w-2 h-2 rounded-full bg-current"></span>
+            {{ wallet.get_type_display }}
+          </span>
+          
+          <div class="relative">
+          </div>
+        </div>
+
+        <!-- Wallet Title -->
+        <h3 class="text-xl font-bold text-bgray-900 dark:text-white mb-2 truncate">
+          {{ wallet.title }}
+        </h3>
+
+        <!-- Balance -->
+        <div class="mb-6">
+          <p class="text-sm text-bgray-600 dark:text-bgray-400 mb-1">Current Balance</p>
+          <p class="text-3xl font-bold text-bgray-900 dark:text-white">
+            ${{ wallet.balance|floatformat:2 }}
+          </p>
+        </div>
+
+        <!-- Created Date -->
+        <div class="flex items-center justify-between pt-4 border-t border-bgray-200 dark:border-darkblack-400">
+          <div class="flex items-center gap-2 text-sm text-bgray-600 dark:text-bgray-400">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14 2H12V1C12 0.448 11.552 0 11 0C10.448 0 10 0.448 10 1V2H6V1C6 0.448 5.552 0 5 0C4.448 0 4 0.448 4 1V2H2C0.897 2 0 2.897 0 4V14C0 15.103 0.897 16 2 16H14C15.103 16 16 15.103 16 14V4C16 2.897 15.103 2 14 2ZM14 14H2V7H14V14Z" fill="currentColor"/>
+            </svg>
+            <span>{{ wallet.created|date:"M d, Y" }}</span>
+          </div>
+          
+          <a href="#" class="text-success-300 hover:text-success-400 font-semibold text-sm transition-colors flex items-center gap-1 group">
+            View
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="group-hover:translate-x-1 transition-transform">
+              <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Hover Effect Gradient -->
+      <div class="absolute inset-0 bg-gradient-to-br from-success-300/0 to-success-300/0 group-hover:from-success-300/5 group-hover:to-transparent transition-all duration-300 pointer-events-none"></div>
+    </div>
+    {% empty %}
+    <!-- Empty State -->
+    <div class="col-span-full flex flex-col items-center justify-center py-16 px-4">
+      <div class="w-24 h-24 mb-6 rounded-full bg-bgray-100 dark:bg-darkblack-500 flex items-center justify-center">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 4C20 1.79086 18.2091 0 16 0H4C1.79086 0 0 1.79086 0 4V14C0 16.2091 1.79086 18 4 18H16C18.2091 18 20 16.2091 20 14V4Z" fill="currentColor" class="text-bgray-300 dark:text-bgray-600"/>
+          <path d="M6 9C6 7.34315 4.65685 6 3 6H0V12H3C4.65685 12 6 10.6569 6 9Z" fill="currentColor" class="text-success-300"/>
+        </svg>
+      </div>
+      <h3 class="text-xl font-bold text-bgray-900 dark:text-white mb-2">No wallets yet</h3>
+      <p class="text-bgray-600 dark:text-bgray-400 mb-6 text-center max-w-md">
+        Start managing your finances by creating your first wallet. Track your cash, cards, and other payment methods all in one place.
+      </p>
+      <button 
+        onclick="openAddWalletModal()"
+        class="px-6 py-3 bg-success-300 text-white rounded-xl font-semibold hover:bg-success-400 transition-colors shadow-lg hover:shadow-xl"
+      >
+        Create Your First Wallet
+      </button>
+    </div>
+    {% endfor %}
+  </div>
+
+</main>
+
+<!-- Add Wallet Modal -->
+<div id="addWalletModal" class="hidden fixed inset-0 z-50 overflow-y-auto">
+  <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
+    <!-- Backdrop -->
+    <div class="fixed inset-0 transition-opacity bg-bgray-900/80 backdrop-blur-sm" onclick="closeAddWalletModal()"></div>
+    
+    <!-- Modal Panel -->
+    <div class="relative inline-block align-bottom bg-white dark:bg-darkblack-600 rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+      <div class="p-8">
+        <!-- Modal Header -->
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h3 class="text-2xl font-bold text-bgray-900 dark:text-white">Create New Wallet</h3>
+            <p class="text-sm text-bgray-600 dark:text-bgray-400 mt-1">Add a new wallet to track your finances</p>
+          </div>
+          <button onclick="closeAddWalletModal()" class="p-2 rounded-lg hover:bg-bgray-100 dark:hover:bg-darkblack-500 transition-colors">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="text-bgray-600 dark:text-bgray-400"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Calculate and display total balance
+function updateTotalBalance() {
+  const walletCards = document.querySelectorAll('.wallet-card');
+  let total = 0;
+  
+  walletCards.forEach(card => {
+    const balance = parseFloat(card.dataset.balance) || 0;
+    total += balance;
+  });
+  
+  const totalBalanceElement = document.getElementById('totalBalance');
+  if (totalBalanceElement) {
+    totalBalanceElement.textContent = total.toFixed(2);
+  }
+}
+
+// Modal functions
+function openAddWalletModal() {
+  document.getElementById('addWalletModal').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeAddWalletModal() {
+  document.getElementById('addWalletModal').classList.add('hidden');
+  document.body.style.overflow = 'auto';
+}
+
+// Wallet menu toggle
+function toggleWalletMenu(walletId) {
+  const menu = document.getElementById(`wallet-menu-${walletId}`);
+  const allMenus = document.querySelectorAll('[id^="wallet-menu-"]');
+  
+  allMenus.forEach(m => {
+    if (m !== menu) m.classList.add('hidden');
+  });
+  
+  menu.classList.toggle('hidden');
+}
+
+// Delete wallet
+function deleteWallet(walletId) {
+  if (confirm('Are you sure you want to delete this wallet? This action cannot be undone.')) {
+    // Send delete request
+    fetch(`/wallet/delete/${walletId}/`, {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        location.reload();
+      }
+    });
+  }
+}
+
+// Close menus when clicking outside
+document.addEventListener('click', function(event) {
+  if (!event.target.closest('[onclick^="toggleWalletMenu"]')) {
+    document.querySelectorAll('[id^="wallet-menu-"]').forEach(menu => {
+      menu.classList.add('hidden');
+    });
+  }
+});
+
+// Close modal on Escape key
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape') {
+    closeAddWalletModal();
+  }
+});
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+  updateTotalBalance();
+});
+</script>
+
+<style>
+/* Custom animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.wallet-card {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Smooth transitions */
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #22C55E;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #16A34A;
+}
+</style>
+{% endblock content %}

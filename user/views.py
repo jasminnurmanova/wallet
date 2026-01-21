@@ -56,3 +56,16 @@ class UpdateProfileView(View,LoginRequiredMixin):
             form.save()
             return redirect('users:profile',request.user)
         return render(request,'registration/update_profile',{'form':form})
+
+
+
+
+@login_required
+def change_language(request):
+    lang = request.POST.get('language')
+
+    if lang in ['en', 'uz']:
+        request.user.language = lang
+        request.user.save(update_fields=['language'])
+
+    return redirect(request.META.get('HTTP_REFERER', '/'))

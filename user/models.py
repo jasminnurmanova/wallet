@@ -3,9 +3,20 @@ from django.contrib.auth.models import AbstractUser
 
 
 class CustomUser(AbstractUser):
-    phone_number = models.IntegerField(blank=True,null=True)
-    avatar = models.ImageField(upload_to='avatars/',default='avatars/default.png')
+    LANGUAGE_CHOICES = (
+        ('en', 'English'),
+        ('uz', 'Uzbek'),
+    )
+
+    phone_number = models.CharField(max_length=20, blank=True, null=True)
+    avatar = models.ImageField(upload_to='avatars/', default='avatars/default.png')
     address = models.CharField(max_length=100, null=True, blank=True)
+
+    language = models.CharField(
+        max_length=2,
+        choices=LANGUAGE_CHOICES,
+        default='en'
+    )
 
     def __str__(self):
         return self.username

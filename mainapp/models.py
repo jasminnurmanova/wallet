@@ -22,11 +22,16 @@ class Wallet(models.Model):
         ('card', 'Bank card'),
         ('other', 'OTHER'),
     )
+    CURRENCY_CHOICES=( ("UZS", ("UZS")),
+        ("USD", ("USD")),)
+
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=32)
     type = models.CharField(max_length=16, choices=TYPE_CHOICES, default='other')
     balance = models.DecimalField(max_digits=15, decimal_places=2, default=Decimal('0.00'))
     created = models.DateTimeField(auto_now_add=True)
+    currency=models.CharField(max_length=3,choices=CURRENCY_CHOICES)
+
 
     def __str__(self):
         return self.title

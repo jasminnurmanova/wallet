@@ -1,8 +1,8 @@
 from multiprocessing.managers import Value
 from django.core.exceptions import ValidationError
-from django.db.models import Sum
+from django.db.models import Sum, Q
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect, get_object_or_404,reverse
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Wallet, IncomeOutcome, Category
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum, Case, When, F, DecimalField
@@ -12,27 +12,48 @@ from datetime import timedelta
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.contrib import messages
-from django.db.models import Q
+from django.urls import reverse
+from decimal import InvalidOperation
+from django.db.models.functions import Coalesce
 
 
 @login_required
 def home(request):
     wallets = Wallet.objects.filter(owner=request.user)
     histories = IncomeOutcome.objects.filter(author=request.user)
-
     total = sum(wallet.balance for wallet in wallets)
-
-    income = (
-        IncomeOutcome.objects
-        .filter(author=request.user, type='income')
-        .aggregate(total=Sum('amount'))['total'] or 0
-    )
 
     outcome = (
             IncomeOutcome.objects
             .filter(author=request.user, type='expense')
-            .aggregate(total=Sum('amount'))['total'] or 0
+            .aggregate(total=Coalesce(Sum('amount'), Decimal("0"), output_field=DecimalField(max_digits=15, decimal_places=2)))['total']
     )
+
+    income = (
+        IncomeOutcome.objects
+        .filter(author=request.user, type='income')
+        .aggregate(total=Coalesce(Sum('amount'), Decimal("0"), output_field=DecimalField(max_digits=15, decimal_places=2)))['total']
+    )
+
+    top_cats_qs = (
+        histories
+        .filter(type="expense")
+        .values("category_id", "category__title")
+        .annotate(total_amount=Coalesce(Sum("amount"), Decimal("0"), output_field=DecimalField(max_digits=15, decimal_places=2)))
+        .order_by("-total_amount")[:3]
+    )
+    top_categories = []
+    outcome_total = outcome or Decimal("0")
+    for row in top_cats_qs:
+        amt = row["total_amount"] or Decimal("0")
+        pct = 0
+        if outcome_total > 0:
+            pct = int((amt / outcome_total) * 100)
+        top_categories.append({
+            "title": row["category__title"] or "Unknown",
+            "amount": amt,
+            "percent": pct,
+        })
 
     total_transactions = income + outcome
 
@@ -51,6 +72,7 @@ def home(request):
         "outcome_percentage": outcome_percentage,
         "wallets": wallets,
         "histories": histories,
+        'top_categories': top_categories,
     })
 
 
@@ -79,11 +101,7 @@ class TransactionView(LoginRequiredMixin, View):
             messages.error(request, "Hisob topilmadi")
             return redirect(reverse("main:transaction"))
 
-        try:
-            category = Category.objects.get(id=category_id, type_p=type_p)
-        except Category.DoesNotExist:
-            messages.error(request, "Kategoriya notogri")
-            return redirect(reverse("main:transaction"))
+        category = get_object_or_404(Category, id=category_id)
 
         try:
             amount = Decimal(amount_raw)
@@ -92,12 +110,15 @@ class TransactionView(LoginRequiredMixin, View):
         except:
             messages.error(request, "Summani togri kiriting")
             return redirect(reverse("main:transaction"))
+        print(1111111, type_p)
+        if type_p == 'income':
+            wallet.balance += amount
+        else:
+            if wallet.balance < amount:
+                messages.error(request, "Balansingiz yetarli emas")
+                return redirect(reverse("main:transaction"))
+            wallet.balance -= amount
 
-        if wallet.balance < amount:
-            messages.error(request, "Balansingiz yetarli emas")
-            return redirect(reverse("main:transaction"))
-
-        wallet.balance -= amount
         wallet.save()
 
         IncomeOutcome.objects.create(
@@ -114,12 +135,16 @@ class TransactionView(LoginRequiredMixin, View):
 
 class AddWallet(LoginRequiredMixin, View):
     def get(self, request):
-        return render(request, 'add-wallet.html')
+        context = {
+            'w_types': Wallet.TYPE_CHOICES,
+        }
+        return render(request, 'add-wallet.html', context)
 
     def post(self, request):
         title = request.POST.get("title")
         type_p = request.POST.get("type")
         balance = request.POST.get("balance")
+        currency=request.POST.get("currency")
         if not title:
             return render(request, "add-wallet.html", {
                 "error": "Title is important"
@@ -214,11 +239,11 @@ class History(LoginRequiredMixin, View):
 
 class WalletView(LoginRequiredMixin, View):
     def get(self, request):
-        wallet = Wallet.objects.filter(owner=request.user)
+        wallets = Wallet.objects.filter(owner=request.user)
         context = {
-            'wallet': wallet,
+            'wallets': wallets,
         }
-        return render(request, 'my-wallet.html', context)
+        return render(request, 'my-wallet2.html', context)
 
 
 class AddCategory(LoginRequiredMixin, View):
@@ -244,3 +269,4 @@ class AddCategory(LoginRequiredMixin, View):
 
         messages.success(request, "Category added successfully")
         return redirect(reverse("main:transaction"))
+

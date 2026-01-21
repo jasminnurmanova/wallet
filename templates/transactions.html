@@ -89,7 +89,10 @@
     {% endif %}
 
     <!-- TYPE SWITCH -->
+    <form method="POST">
+      {% csrf_token %}
     <div style="display:flex; gap:12px; margin-bottom:20px;">
+      <input type="hidden" name="type" id="typeInput" value="expense">
       <button type="button" id="incomeBtn" class="submit-btn income-btn inactive">
         ➕ INCOME
       </button>
@@ -97,11 +100,6 @@
         ➖ EXPENSE
       </button>
     </div>
-
-    <form method="POST">
-      {% csrf_token %}
-
-      <input type="hidden" name="type" id="typeInput" value="expense">
 
       <!-- WALLET -->
       <div class="form-group">
@@ -156,40 +154,60 @@
 </div>
 
 <script>
-const typeInput = document.getElementById("typeInput");
-const categorySelect = document.getElementById("categorySelect");
-const incomeBtn = document.getElementById("incomeBtn");
-const expenseBtn = document.getElementById("expenseBtn");
-const submitBtn = document.getElementById("submitBtn");
-
-function setType(type) {
-  typeInput.value = type;
-  categorySelect.value = "";
-
-  [...categorySelect.options].forEach(option => {
-    if (!option.dataset.type) return;
-    const match = option.dataset.type === type;
-    option.hidden = !match;
-    option.disabled = !match;
-  });
-
-  if (type === "income") {
-    incomeBtn.classList.remove("inactive");
-    expenseBtn.classList.add("inactive");
-    submitBtn.className = "submit-btn income-btn";
-  } else {
-    expenseBtn.classList.remove("inactive");
-    incomeBtn.classList.add("inactive");
-    submitBtn.className = "submit-btn outcome-btn";
-  }
-}
-
-incomeBtn.onclick = () => setType("income");
-expenseBtn.onclick = () => setType("expense");
-
 document.addEventListener("DOMContentLoaded", () => {
+  const typeInput = document.getElementById("typeInput");
+  const categorySelect = document.getElementById("categorySelect");
+  const incomeBtn = document.getElementById("incomeBtn");
+  const expenseBtn = document.getElementById("expenseBtn");
+  const submitBtn = document.getElementById("submitBtn");
+
+  function setType(type) {
+    // backendga ketadigan qiymat
+    typeInput.value = type;
+
+    // category reset
+    categorySelect.value = "";
+
+    // categorylarni filter qilish
+    Array.from(categorySelect.options).forEach(option => {
+      const optType = option.dataset.type;
+
+      // "Select category" option
+      if (!optType) {
+        option.hidden = false;
+        option.disabled = false;
+        return;
+      }
+
+      const match = optType === type;
+      option.hidden = !match;
+      option.disabled = !match;
+    });
+
+    // button active/inactive holati
+    if (type === "income") {
+      incomeBtn.classList.remove("inactive");
+      expenseBtn.classList.add("inactive");
+
+      submitBtn.classList.remove("outcome-btn");
+      submitBtn.classList.add("income-btn");
+    } else {
+      expenseBtn.classList.remove("inactive");
+      incomeBtn.classList.add("inactive");
+
+      submitBtn.classList.remove("income-btn");
+      submitBtn.classList.add("outcome-btn");
+    }
+  }
+
+  // clicklar
+  incomeBtn.addEventListener("click", () => setType("income"));
+  expenseBtn.addEventListener("click", () => setType("expense"));
+
+  // default holat
   setType("expense");
 });
 </script>
+
 
 {% endblock %}

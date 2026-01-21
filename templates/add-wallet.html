@@ -1,124 +1,366 @@
 {% extends "base.html" %}
+{% load static %}
+
 {% block content %}
+<main class="w-full px-6 pb-6 pt-[100px] sm:pt-[156px] xl:px-12 xl:pb-12">
+  <div class="max-w-2xl mx-auto">
+    
+    <!-- Breadcrumb -->
+    <div class="flex items-center gap-2 text-sm text-bgray-600 dark:text-bgray-400 mb-6">
+      <a href="{% url 'main:home' %}" class="hover:text-success-300 transition-colors">Dashboard</a>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <a href="{% url 'main:wallet' %}" class="hover:text-success-300 transition-colors">Wallets</a>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="text-bgray-900 dark:text-white font-medium">Add New Wallet</span>
+    </div>
 
-<div class="min-h-[80vh] flex items-center justify-center px-4" style="margin-top: 200px">
-  <div class="w-full max-w-lg bg-white dark:bg-darkblack-600 rounded-2xl shadow-xl p-8">
-
-    <!-- TITLE -->
-    <h2 class="text-2xl font-bold text-bgray-900 dark:text-white mb-6 text-center">
-      Add New Wallet
-    </h2>
-
-    <form method="post" class="space-y-5">
-      {% csrf_token %}
-
-      <!-- Wallet Type -->
-      <div>
-        <label class="block mb-2 text-sm font-semibold text-bgray-700 dark:text-bgray-50">
-          Wallet Type
-        </label>
-        <select
-          name="type"
-          id="walletTypeSelect"
-          required
-          class="w-full rounded-lg border border-bgray-200 px-4 py-3
-                 focus:border-success-300 focus:ring-success-300
-                 dark:border-darkblack-400 dark:bg-darkblack-500 dark:text-white"
-        >
-          <option value="cash">Cash</option>
-          <option value="uzcard">UzCard</option>
-          <option value="humo">Humo</option>
-          <option value="visa">Visa</option>
-        </select>
+    <!-- Main Card -->
+    <div class="bg-white dark:bg-darkblack-600 rounded-2xl shadow-xl overflow-hidden">
+      
+      <!-- Header with Gradient -->
+      <div class="relative bg-gradient-to-br from-success-300 via-success-400 to-success-500 px-8 py-10">
+        <div class="absolute top-0 right-0 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+        
+        <div class="relative z-10 flex items-center gap-4">
+          <div class="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 4C20 1.79086 18.2091 0 16 0H4C1.79086 0 0 1.79086 0 4V14C0 16.2091 1.79086 18 4 18H16C18.2091 18 20 16.2091 20 14V4Z" fill="white" fill-opacity="0.4"/>
+              <path d="M6 9C6 7.34315 4.65685 6 3 6H0V12H3C4.65685 12 6 10.6569 6 9Z" fill="white"/>
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-3xl font-bold text-white mb-1">Create New Wallet</h1>
+            <p class="text-white/80">Set up your wallet to start tracking finances</p>
+          </div>
+        </div>
       </div>
 
-      <!-- Balance -->
-      <div>
-        <label class="block mb-2 text-sm font-semibold text-bgray-700 dark:text-bgray-50">
-          Initial Balance
-        </label>
-        <input
-          type="number"
-          step="0.01"
-          name="balance"
-          required
-          placeholder="e.g. 1,000,000"
-          class="w-full rounded-lg border border-bgray-200 px-4 py-3
-                 focus:border-success-300 focus:ring-success-300
-                 dark:border-darkblack-400 dark:bg-darkblack-500 dark:text-white"
-        />
-      </div>
+      <!-- Form -->
+      <form method="post" class="p-8 space-y-6">
+        {% csrf_token %}
 
-      <!-- Card Number -->
-      <div id="cardNumberField">
-        <label class="block mb-2 text-sm font-semibold text-bgray-700 dark:text-bgray-50">
-          Card Number <span class="text-xs opacity-60">(optional)</span>
-        </label>
-        <input
-          type="text"
-          name="card_numbers"
-          placeholder="**** **** **** 1234"
-          class="w-full rounded-lg border border-bgray-200 px-4 py-3
-                 focus:border-success-300 focus:ring-success-300
-                 dark:border-darkblack-400 dark:bg-darkblack-500 dark:text-white"
-        />
-      </div>
+        <!-- Wallet Title -->
+        <div class="form-group">
+          <label class="block text-sm font-bold text-bgray-900 dark:text-white mb-3">
+            Wallet Name
+            <span class="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            name="title"
+            required
+            maxlength="32"
+            placeholder="e.g., Personal Cash, Savings Account, Business Card"
+            class="w-full px-5 py-4 rounded-xl border-2 border-bgray-200 dark:border-darkblack-400 
+                   bg-white dark:bg-darkblack-500 
+                   text-bgray-900 dark:text-white 
+                   placeholder-bgray-400 dark:placeholder-bgray-500
+                   focus:border-success-300 focus:ring-4 focus:ring-success-100 dark:focus:ring-success-900/30
+                   transition-all outline-none
+                   hover:border-bgray-300 dark:hover:border-darkblack-300"
+          />
+          <p class="mt-2 text-xs text-bgray-500 dark:text-bgray-400">
+            Choose a descriptive name to easily identify this wallet
+          </p>
+        </div>
 
-      <!-- Expire Date -->
-      <div id="expireDateField">
-        <label class="block mb-2 text-sm font-semibold text-bgray-700 dark:text-bgray-50">
-          Expire Date <span class="text-xs opacity-60">(MM/YY)</span>
-        </label>
-        <input
-          type="text"
-          name="expire_date"
-          placeholder="08/27"
-          class="w-full rounded-lg border border-bgray-200 px-4 py-3
-                 focus:border-success-300 focus:ring-success-300
-                 dark:border-darkblack-400 dark:bg-darkblack-500 dark:text-white"
-        />
-      </div>
+        <!-- Wallet Type -->
+        <div class="form-group">
+  <label class="block text-sm font-bold text-bgray-900 dark:text-white mb-3">
+    Wallet Type
+    <span class="text-red-500">*</span>
+  </label>
+  
+  <div class="relative">
+    <select
+      name="type"
+      required
+      class="w-full px-5 py-4 rounded-xl border-2 border-bgray-200 dark:border-darkblack-400 
+             bg-white dark:bg-darkblack-500 
+             text-bgray-900 dark:text-white 
+             focus:border-success-300 focus:ring-4 focus:ring-success-100 dark:focus:ring-success-900/30
+             transition-all outline-none
+             hover:border-bgray-300 dark:hover:border-darkblack-300
+             appearance-none cursor-pointer
+             pr-12"
+            >
+              <option value="" disabled selected>Select wallet type</option>
+              {% for key, value in w_types %}
+              <option value="{{ key }}">{{ value }}</option>
+              {% endfor %}
+            </select>
+            
+            <!-- Custom Dropdown Arrow -->
+            <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-bgray-600 dark:text-bgray-400"/>
+              </svg>
+            </div>
+          </div>
 
-      <!-- ACTIONS -->
-      <div class="flex items-center justify-between pt-4">
-        <a
-          href="{% url 'main:home' %}"
-          class="text-sm font-semibold text-bgray-500 hover:text-bgray-700"
-        >
-          Cancel
-        </a>
+          <p class="mt-3 text-xs text-bgray-500 dark:text-bgray-400">
+            Select the type that best describes this wallet
+          </p>
+        </div>
 
-        <button
-          type="submit"
-          class="px-6 py-3 rounded-lg bg-success-500 text-white font-semibold
-                 hover:bg-success-600 transition"
-        >
-          Save Wallet
-        </button>
-      </div>
+        <!-- Initial Balance -->
+        <div class="form-group">
+          <label class="block text-sm font-bold text-bgray-900 dark:text-white mb-3">
+            Initial Balance
+            <span class="text-bgray-500 dark:text-bgray-400 font-normal text-xs ml-2"></span>
+          </label>
+          
+          <div class="relative">
+            <div class="absolute left-5 top-1/2 -translate-y-1/2 flex items-center gap-2">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.31-8.86c-1.77-.45-2.34-.94-2.34-1.67 0-.84.79-1.43 2.1-1.43 1.38 0 1.9.66 1.94 1.64h1.71c-.05-1.34-.87-2.57-2.49-2.97V5H10.9v1.69c-1.51.32-2.72 1.3-2.72 2.81 0 1.79 1.49 2.69 3.66 3.21 1.95.46 2.34 1.15 2.34 1.87 0 .53-.39 1.39-2.1 1.39-1.6 0-2.23-.72-2.32-1.64H8.04c.1 1.7 1.36 2.66 2.86 2.97V19h2.34v-1.67c1.52-.29 2.72-1.16 2.73-2.77-.01-2.2-1.9-2.96-3.66-3.42z" fill="currentColor" class="text-success-300"/>
+              </svg>
+              <span class="text-bgray-600 dark:text-bgray-400 font-semibold">$</span>
+            </div>
+            <input
+              type="number"
+              name="balance"
+              step="0.01"
+              min="0"
+              placeholder="0.00"
+              class="w-full pl-16 pr-5 py-4 rounded-xl border-2 border-bgray-200 dark:border-darkblack-400 
+                     bg-white dark:bg-darkblack-500 
+                     text-bgray-900 dark:text-white 
+                     placeholder-bgray-400 dark:placeholder-bgray-500
+                     focus:border-success-300 focus:ring-4 focus:ring-success-100 dark:focus:ring-success-900/30
+                     transition-all outline-none
+                     hover:border-bgray-300 dark:hover:border-darkblack-300
+                     text-lg font-medium"
+            />
+          </div>
+          <p class="mt-2 text-xs text-bgray-500 dark:text-bgray-400">
+            Enter the current amount in this wallet (leave empty for $0.00)
+          </p>
+        </div>
 
-    </form>
+        <!-- Info Box -->
+        <div class="p-4 rounded-xl bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
+          <div class="flex gap-3">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0">
+              <circle cx="12" cy="12" r="10" fill="currentColor" class="text-blue-200 dark:text-blue-800"/>
+              <path d="M12 16V12M12 8H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="text-blue-600 dark:text-blue-400"/>
+            </svg>
+            <div>
+              <h4 class="text-sm font-semibold text-blue-900 dark:text-blue-100 mb-1">
+                Quick Tip
+              </h4>
+              <p class="text-sm text-blue-700 dark:text-blue-300">
+                You can update the balance and other details anytime after creating the wallet. Don't worry about getting it perfect right now!
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="flex items-center gap-4 pt-6 border-t border-bgray-200 dark:border-darkblack-400">
+          <a
+            href="{% url 'main:wallet' %}"
+            class="flex-1 px-6 py-4 rounded-xl text-center
+                   border-2 border-bgray-300 dark:border-darkblack-400
+                   text-bgray-700 dark:text-bgray-300 font-semibold
+                   hover:bg-bgray-100 dark:hover:bg-darkblack-500
+                   hover:border-bgray-400 dark:hover:border-darkblack-300
+                   transition-all duration-200
+                   flex items-center justify-center gap-2"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M19 12H5M12 19L5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Cancel
+          </a>
+          
+          <button
+            type="submit"
+            class="flex-1 px-6 py-4 rounded-xl text-center
+                   bg-gradient-to-r from-success-300 to-success-400
+                   text-white font-semibold
+                   hover:from-success-400 hover:to-success-500
+                   shadow-lg hover:shadow-xl hover:shadow-success-300/50
+                   hover:-translate-y-0.5
+                   transition-all duration-200
+                   flex items-center justify-center gap-2"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 13L9 17L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Create Wallet
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+    <!-- Help Section -->
+    <div class="mt-6 p-5 rounded-xl bg-bgray-50 dark:bg-darkblack-500 border border-bgray-200 dark:border-darkblack-400">
+      <h3 class="text-sm font-bold text-bgray-900 dark:text-white mb-3 flex items-center gap-2">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" class="text-success-300"/>
+          <path d="M9.09 9C9.325 8.34 9.989 8 11 8C12.657 8 14 8.895 14 10C14 11.105 12.657 12 11 12V14" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="text-success-300"/>
+          <circle cx="11" cy="17" r="1" fill="currentColor" class="text-success-300"/>
+        </svg>
+        Need Help?
+      </h3>
+      <ul class="space-y-2 text-sm text-bgray-600 dark:text-bgray-400">
+        <li class="flex items-start gap-2">
+          <span class="text-success-300 mt-1">•</span>
+          <span><strong>Wallet Name:</strong> Use a clear, descriptive name like "Daily Expenses" or "Emergency Fund"</span>
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="text-success-300 mt-1">•</span>
+          <span><strong>Type:</strong> Cash for physical money, Card for bank accounts, Other for digital wallets</span>
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="text-success-300 mt-1">•</span>
+          <span><strong>Balance:</strong> Enter your current balance, or leave it at $0.00 if starting fresh</span>
+        </li>
+      </ul>
+    </div>
+
   </div>
-</div>
+</main>
 
-<!-- JS -->
-<script>
-  const typeSelect = document.getElementById("walletTypeSelect");
-  const cardNumberField = document.getElementById("cardNumberField");
-  const expireDateField = document.getElementById("expireDateField");
+<style>
+/* Smooth transitions for all elements */
+.form-group input,
+.form-group select,
+.wallet-type-card > div {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-  function toggleCardFields() {
-    if (typeSelect.value === "cash") {
-      cardNumberField.classList.add("hidden");
-      expireDateField.classList.add("hidden");
-    } else {
-      cardNumberField.classList.remove("hidden");
-      expireDateField.classList.remove("hidden");
-    }
+/* Focus state animations */
+.form-group input:focus,
+.form-group select:focus {
+  transform: translateY(-1px);
+}
+
+/* Radio button check animation */
+.wallet-type-card input:checked ~ div svg {
+  animation: checkPop 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes checkPop {
+  0% {
+    transform: scale(0);
+    opacity: 0;
   }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
 
-  typeSelect.addEventListener("change", toggleCardFields);
-  document.addEventListener("DOMContentLoaded", toggleCardFields);
+/* Hover lift effect */
+button[type="submit"]:hover {
+  animation: buttonPulse 2s ease-in-out infinite;
+}
+
+@keyframes buttonPulse {
+  0%, 100% {
+    box-shadow: 0 10px 15px -3px rgba(34, 197, 94, 0.3);
+  }
+  50% {
+    box-shadow: 0 20px 25px -5px rgba(34, 197, 94, 0.4);
+  }
+}
+
+/* Custom number input styling */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Smooth page entry animation */
+main {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
+
+<script>
+// Auto-format balance input with commas
+const balanceInput = document.querySelector('input[name="balance"]');
+if (balanceInput) {
+  balanceInput.addEventListener('input', function(e) {
+    // Remove non-numeric characters except decimal point
+    let value = e.target.value.replace(/[^0-9.]/g, '');
+    
+    // Ensure only one decimal point
+    const parts = value.split('.');
+    if (parts.length > 2) {
+      value = parts[0] + '.' + parts.slice(1).join('');
+    }
+    
+    // Limit to 2 decimal places
+    if (parts.length === 2 && parts[1].length > 2) {
+      value = parts[0] + '.' + parts[1].substring(0, 2);
+    }
+    
+    e.target.value = value;
+  });
+}
+
+// Form validation before submit
+document.querySelector('form').addEventListener('submit', function(e) {
+  const title = document.querySelector('input[name="title"]').value.trim();
+  
+  if (!title) {
+    e.preventDefault();
+    alert('Please enter a wallet name');
+    document.querySelector('input[name="title"]').focus();
+    return false;
+  }
+  
+  if (title.length > 32) {
+    e.preventDefault();
+    alert('Wallet name must be 32 characters or less');
+    document.querySelector('input[name="title"]').focus();
+    return false;
+  }
+  
+  // Show loading state
+  const submitBtn = this.querySelector('button[type="submit"]');
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = `
+    <svg class="animate-spin h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+    </svg>
+    Creating...
+  `;
+});
+
+// Auto-focus first input on page load
+window.addEventListener('load', function() {
+  document.querySelector('input[name="title"]').focus();
+});
 </script>
 
 {% endblock %}
